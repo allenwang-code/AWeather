@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12121" systemVersion="16F73" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" launchScreen="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="M5d-1k-KFI">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12089"/>
+        <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--View Controller-->
+        <scene sceneID="AtJ-NL-Z9D">
+            <objects>
+                <viewController storyboardIdentifier="WelcomePageView" id="M5d-1k-KFI" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="Qst-Rl-tTL"/>
+                        <viewControllerLayoutGuide type="bottom" id="5wN-yP-Agu"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="mGL-DJ-bWr">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="redraw" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="bg" translatesAutoresizingMaskIntoConstraints="NO" id="Udz-He-5zg">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                            </imageView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="AWeather" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsLetterSpacingToFitWidth="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5xJ-JH-NnN">
+                                <rect key="frame" x="107" y="189.5" width="176" height="21"/>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="24"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="5xJ-JH-NnN" firstAttribute="width" secondItem="Udz-He-5zg" secondAttribute="width" multiplier="0.47" id="8rN-hB-yyK"/>
+                            <constraint firstItem="Udz-He-5zg" firstAttribute="width" secondItem="mGL-DJ-bWr" secondAttribute="width" id="A1q-NV-6Cl"/>
+                            <constraint firstItem="5xJ-JH-NnN" firstAttribute="centerX" secondItem="Udz-He-5zg" secondAttribute="centerX" multiplier="1.04" id="HLh-XQ-zQn"/>
+                            <constraint firstItem="Udz-He-5zg" firstAttribute="centerY" secondItem="mGL-DJ-bWr" secondAttribute="centerY" id="IS7-FM-mli"/>
+                            <constraint firstItem="Udz-He-5zg" firstAttribute="centerX" secondItem="mGL-DJ-bWr" secondAttribute="centerX" id="Svf-h4-rJA"/>
+                            <constraint firstItem="5xJ-JH-NnN" firstAttribute="centerY" secondItem="Udz-He-5zg" secondAttribute="centerY" multiplier="0.6" id="T0u-BD-PxF"/>
+                            <constraint firstItem="Udz-He-5zg" firstAttribute="height" secondItem="mGL-DJ-bWr" secondAttribute="height" id="m8k-uH-I8G"/>
+                            <constraint firstItem="5xJ-JH-NnN" firstAttribute="height" secondItem="Udz-He-5zg" secondAttribute="height" multiplier="0.03" id="uvk-Zq-JSp"/>
+                        </constraints>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Fi6-50-Kfp" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="52" y="374.66266866566718"/>
+        </scene>
+    </scenes>
+    <resources>
+        <image name="bg" width="1920" height="1920"/>
+    </resources>
+</document>
