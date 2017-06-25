@@ -38,6 +38,7 @@
                     </label>
                 </subviews>
             </view>
+            <color key="backgroundColor" red="0.45456910253545629" green="0.94019670050761417" blue="0.48338675635452322" alpha="0.51696275684931503" colorSpace="custom" customColorSpace="displayP3"/>
             <size key="customSize" width="103" height="164"/>
             <point key="canvasLocation" x="336" y="-67"/>
         </collectionViewCell>

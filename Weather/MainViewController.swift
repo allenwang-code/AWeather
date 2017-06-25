@@ -13,12 +13,16 @@ class MainViewController: UIViewController {
     @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var flow: UICollectionViewFlowLayout!
     
+    var viewModel: MainViewModal!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
         setUpCollctionViewCell()
         setUpNavigationBar()
       
+        viewModel = MainViewModal()
+        viewModel.getData()
+        viewModel.askGPS()
     }
 
     override func didReceiveMemoryWarning() {
@@ -32,15 +36,12 @@ class MainViewController: UIViewController {
     }
  
     private func setUpNavigationBar() {
-        
         self.title = NSLocalizedString("AWeather", comment: "")
         self.navigationController?.isNavigationBarHidden = false
-//        self.navigationController?.navigationBar.backgroundColor = UIColor.black
-//        self.navigationController?.view.backgroundColor = UIColor.black
         
         let location = UIButton.init(type: .custom)
         location.setImage(#imageLiteral(resourceName: "current location"), for: UIControlState.normal)
-        location.addTarget(self, action:#selector(goto), for: .touchUpInside)
+        location.addTarget(self, action:#selector(viewModel.askGPS), for: .touchUpInside)
         location.frame = CGRect.init(x: 0, y: 0, width: 30, height: 30)
         let locationItem = UIBarButtonItem.init(customView: location)
         
@@ -52,22 +53,20 @@ class MainViewController: UIViewController {
         
         let share = UIButton()
         share.setImage(#imageLiteral(resourceName: "share"), for: UIControlState.normal)
-        share.addTarget(self, action:#selector(goto), for: .touchUpInside)
+        share.addTarget(self, action:#selector(shareToNetwork), for: .touchUpInside)
         share.frame = CGRect.init(x: 0, y: 0, width: 30, height: 30)
         let shareItem = UIBarButtonItem.init(customView: share)
         
 
         let buttonArray = [shareItem, mapItem, locationItem]
-        
-//        self.navigationItem.rightBarButtonItems = buttonArray
         self.navigationItem.setRightBarButtonItems(buttonArray, animated: true)
-//        self.navigationController?.navigationItem.setRightBarButtonItems(buttonArray, animated: true)
-//        self.navigationController?.navigationItem.rightBarButtonItems = buttonArray
     }
  
+    func goto() {
     
-    func goto(){
+    }
     
+    func shareToNetwork() {
     
     }
 }
@@ -90,8 +89,9 @@ extension MainViewController: UICollectionViewDataSource,
                     withReuseIdentifier: "mainCell", for: indexPath)
             
             let screenSize = UIScreen.main.bounds
-            let screenWidth = screenSize.width
-            let screenHeight = screenSize.height
+            //let screenWidth = screenSize.width
+            //let screenHeight = screenSize.height
+            
             cell.frame.size.width = 125
             cell.frame.size.height = 165
         
