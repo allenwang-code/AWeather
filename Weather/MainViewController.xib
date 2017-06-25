@@ -62,7 +62,7 @@
                     </connections>
                 </collectionView>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9P9-QZ-w8O">
-                    <rect key="frame" x="253" y="248" width="100" height="20"/>
+                    <rect key="frame" x="269" y="248" width="100" height="20"/>
                     <state key="normal" title="Daily/Hourly"/>
                 </button>
             </subviews>
@@ -72,7 +72,7 @@
                 <constraint firstItem="9P9-QZ-w8O" firstAttribute="height" secondItem="i5M-Pr-FkT" secondAttribute="height" multiplier="0.03" id="10p-Fe-Oaz"/>
                 <constraint firstItem="8Du-tD-AiX" firstAttribute="height" secondItem="i5M-Pr-FkT" secondAttribute="height" multiplier="0.3" id="9XU-ww-HEt"/>
                 <constraint firstItem="8Du-tD-AiX" firstAttribute="centerY" secondItem="i5M-Pr-FkT" secondAttribute="centerY" multiplier="1.13" id="Fkn-rb-Vu1"/>
-                <constraint firstItem="9P9-QZ-w8O" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="253" id="JKV-P6-Rje"/>
+                <constraint firstItem="9P9-QZ-w8O" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" multiplier="1.7" id="Fxy-tX-UEt"/>
                 <constraint firstItem="8Du-tD-AiX" firstAttribute="top" secondItem="9P9-QZ-w8O" secondAttribute="bottom" constant="8" id="Ux0-Qz-er4"/>
                 <constraint firstItem="8Du-tD-AiX" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="g8g-Nh-NSL"/>
                 <constraint firstItem="8Du-tD-AiX" firstAttribute="width" secondItem="i5M-Pr-FkT" secondAttribute="width" id="oFt-we-GmQ"/>

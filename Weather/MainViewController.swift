@@ -17,12 +17,15 @@ class MainViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        setUpCollctionViewCell()
-        setUpNavigationBar()
-      
+        
         viewModel = MainViewModal()
         viewModel.getData()
         viewModel.askGPS()
+        
+        setUpCollctionViewCell()
+        setUpNavigationBar()
+      
+     
     }
 
     override func didReceiveMemoryWarning() {
@@ -41,7 +44,7 @@ class MainViewController: UIViewController {
         
         let location = UIButton.init(type: .custom)
         location.setImage(#imageLiteral(resourceName: "current location"), for: UIControlState.normal)
-        location.addTarget(self, action:#selector(viewModel.askGPS), for: .touchUpInside)
+        location.addTarget(viewModel, action:#selector(MainViewModal.askGPS), for: .touchUpInside)
         location.frame = CGRect.init(x: 0, y: 0, width: 30, height: 30)
         let locationItem = UIBarButtonItem.init(customView: location)
         

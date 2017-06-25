@@ -6,11 +6,11 @@
 //  Copyright © 2017年 Allen Wang. All rights reserved.
 //
 
-import Foundation
+import UIKit
 import CoreLocation
+
 class MainViewModal: NSObject{
-    
-    
+
     let locationManager = CLLocationManager()
     var currentLocation = CLLocation(latitude: 7.39, longitude: 51.30)
     
@@ -49,9 +49,9 @@ extension MainViewModal: CLLocationManagerDelegate {
             guard let placemarks = placemarks else { return }
             if placemarks.count == 0 { return }
             let placemark = placemarks[0]
-            print(placemark.country)
-            print(placemark.administrativeArea)
-            print(placemark.subAdministrativeArea)
+            print(placemark.country!)
+            print(placemark.administrativeArea!)
+            print(placemark.subAdministrativeArea!)
             
             if let city = placemark.addressDictionary?["City"] {
                 print(city)
