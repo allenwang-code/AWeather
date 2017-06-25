@@ -16,8 +16,9 @@ class MainViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        let cell = UINib(nibName: "MainColletionViewCell", bundle: nil)
-        collectionView.register(cell, forCellWithReuseIdentifier: "mainCell")
+        setUpCollctionViewCell()
+        setUpNavigationBar()
+      
     }
 
     override func didReceiveMemoryWarning() {
@@ -25,9 +26,50 @@ class MainViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
+    private func setUpCollctionViewCell() {
+        let cell = UINib(nibName: "MainColletionViewCell", bundle: nil)
+        collectionView.register(cell, forCellWithReuseIdentifier: "mainCell")
+    }
+ 
+    private func setUpNavigationBar() {
+        
+        self.title = NSLocalizedString("AWeather", comment: "")
+        self.navigationController?.isNavigationBarHidden = false
+//        self.navigationController?.navigationBar.backgroundColor = UIColor.black
+//        self.navigationController?.view.backgroundColor = UIColor.black
+        
+        let location = UIButton.init(type: .custom)
+        location.setImage(#imageLiteral(resourceName: "current location"), for: UIControlState.normal)
+        location.addTarget(self, action:#selector(goto), for: .touchUpInside)
+        location.frame = CGRect.init(x: 0, y: 0, width: 30, height: 30)
+        let locationItem = UIBarButtonItem.init(customView: location)
+        
+        let map = UIButton()
+        map.setImage(#imageLiteral(resourceName: "map-1"), for: UIControlState.normal)
+        map.addTarget(self, action:#selector(goto), for: .touchUpInside)
+        map.frame = CGRect.init(x: 0, y: 0, width: 30, height: 30)
+        let mapItem = UIBarButtonItem.init(customView: map)
+        
+        let share = UIButton()
+        share.setImage(#imageLiteral(resourceName: "share"), for: UIControlState.normal)
+        share.addTarget(self, action:#selector(goto), for: .touchUpInside)
+        share.frame = CGRect.init(x: 0, y: 0, width: 30, height: 30)
+        let shareItem = UIBarButtonItem.init(customView: share)
+        
 
+        let buttonArray = [shareItem, mapItem, locationItem]
+        
+//        self.navigationItem.rightBarButtonItems = buttonArray
+        self.navigationItem.setRightBarButtonItems(buttonArray, animated: true)
+//        self.navigationController?.navigationItem.setRightBarButtonItems(buttonArray, animated: true)
+//        self.navigationController?.navigationItem.rightBarButtonItems = buttonArray
+    }
  
     
+    func goto(){
+    
+    
+    }
 }
 
 
@@ -50,8 +92,8 @@ extension MainViewController: UICollectionViewDataSource,
             let screenSize = UIScreen.main.bounds
             let screenWidth = screenSize.width
             let screenHeight = screenSize.height
-            cell.frame.size.width = 250
-            cell.frame.size.height = 100
+            cell.frame.size.width = 125
+            cell.frame.size.height = 165
         
 //            // 設置 cell 內容 (即自定義元件裡 增加的圖片與文字元件)
 //            cell.imageView.image = 
