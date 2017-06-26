@@ -8,11 +8,28 @@
 
 import UIKit
 import CoreLocation
+import Alamofire
+import SwiftyJSON
+
+protocol MainViewModalProtocol {
+    func getDataFinished()
+}
+
 
 class MainViewModal: NSObject{
 
     let locationManager = CLLocationManager()
     var currentLocation = Constant.LONDON
+    
+    var country: String?
+    var city: String?
+    var weathers: [JSON] = [JSON]()
+
+    var handler: MainViewModalProtocol!
+    
+    init(handler: MainViewModalProtocol) {
+        self.handler = handler
+    }
     
     func askGPS() {
         // Ask for Authorisation from the User.
@@ -27,8 +44,48 @@ class MainViewModal: NSObject{
     
     }
     
-    func getData(){
+    func getWeatherData() {
+        if Constant.KEY.isEmpty { getAPIKeyFromPlist() }
         
+        let coordinate = currentLocation.coordinate
+        let parameters: Parameters = ["lat": coordinate.latitude,
+                                      "lon": coordinate.longitude,
+                                      "units": Constant.CELSIUS,
+                                      "APPID": Constant.KEY]
+        
+
+        Alamofire.request(Constant.FORECAST_URL, parameters: parameters).responseJSON { response in
+            print("Request: \(String(describing: response.request))")   // original url request
+            print("Response: \(String(describing: response.response))") // http url response
+            print("Result: \(response.result)")                         // response serialization result
+            
+            if let jsonString = response.result.value {
+                print("JSON: \(jsonString)") // serialized json response
+                let json = JSON(jsonString: jsonString)
+                self.country = json["city"]["country"].string ?? "—"
+                self.city = json["city"]["name"].string ?? "—"
+                self.weathers = json["list"].array!
+                //let max = weathers?[0]["temp"]["max"].stringValue
+                //let min = weathers?[0]["temp"]["min"].stringValue
+                self.handler.getDataFinished()
+            }
+            
+            if let data = response.data, let utf8Text = String(data: data, encoding: .utf8) {
+                print("Data: \(utf8Text)") // original server data as UTF8 string
+            }
+        }
+        
+        
+    }
+    
+    private func getAPIKeyFromPlist() {
+        var keys: NSDictionary?
+        if let path = Bundle.main.path(forResource: "Keys", ofType: "plist") {
+            keys = NSDictionary(contentsOfFile: path)
+        }
+        if let dict = keys {
+            Constant.KEY = dict["weatherAPI key"] as? String ?? ""
+        }
     }
 }
 

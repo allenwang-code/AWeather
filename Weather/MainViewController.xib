@@ -14,6 +14,10 @@
             <connections>
                 <outlet property="collectionView" destination="8Du-tD-AiX" id="VGs-id-LjF"/>
                 <outlet property="flow" destination="fkn-pl-9Mc" id="fUr-fN-gyV"/>
+                <outlet property="ivWeather" destination="1YK-O5-yi7" id="aqn-6K-2ZI"/>
+                <outlet property="lbCity" destination="8TG-zd-PXT" id="0b5-ke-etZ"/>
+                <outlet property="lbDate" destination="9yr-Lq-ixv" id="IXY-2b-9sd"/>
+                <outlet property="lbDegree" destination="8H5-Hh-sQV" id="kbf-Zm-QU8"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
         </placeholder>
@@ -23,7 +27,7 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="－－" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8TG-zd-PXT">
-                    <rect key="frame" x="183" y="144" width="80" height="23.5"/>
+                    <rect key="frame" x="183" y="144" width="80" height="23"/>
                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
                     <fontDescription key="fontDescription" type="system" pointSize="22"/>
                     <nil key="textColor"/>
@@ -41,7 +45,7 @@
                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
                 </imageView>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="2017.07.14" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9yr-Lq-ixv">
-                    <rect key="frame" x="183" y="112" width="125" height="23.5"/>
+                    <rect key="frame" x="183" y="112" width="125" height="23"/>
                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
                     <fontDescription key="fontDescription" type="system" pointSize="22"/>
                     <nil key="textColor"/>

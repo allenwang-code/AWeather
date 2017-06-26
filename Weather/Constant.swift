@@ -20,10 +20,10 @@ import CoreLocation
 
 class Constant {
     public static var KEY = "" // get it from plist in MainViewController
-    public static var LONDON = CLLocation(latitude: 51.509865, longitude: -0.118092)
-    public static let FORECAST_URL = "http://api.openweathermap.org/data/\(version)/forecast/daily"
-
-    private static let version = "2.5"
+    public static let LONDON = CLLocation(latitude: 51.509865, longitude: -0.118092)
+    public static let FORECAST_URL = "http://api.openweathermap.org/data/\(VERSION)/forecast/daily"
+    public static let CELSIUS = "metric"
+    private static let VERSION = "2.5"
    }
 
 
