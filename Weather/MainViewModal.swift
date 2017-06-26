@@ -99,21 +99,22 @@ extension MainViewModal: CLLocationManagerDelegate {
         currentLocation =  CLLocation(latitude: lat, longitude: long)
         locationManager.stopUpdatingLocation()
         
-        let geo = CLGeocoder()
-        geo.reverseGeocodeLocation(currentLocation, completionHandler: {
-            (placemarks, error)-> Void in
-            if (error != nil) { return }
-            guard let placemarks = placemarks else { return }
-            if placemarks.count == 0 { return }
-            let placemark = placemarks[0]
-            print(placemark.country!)
-            print(placemark.administrativeArea!)
-            print(placemark.subAdministrativeArea!)
-            
-            if let city = placemark.addressDictionary?["City"] {
-                print(city)
-            }
-        })
+//        let geo = CLGeocoder()
+//        geo.reverseGeocodeLocation(currentLocation, completionHandler: {
+//            (placemarks, error)-> Void in
+//            if (error != nil) { return }
+//            guard let placemarks = placemarks else { return }
+//            if placemarks.count == 0 { return }
+//            let placemark = placemarks[0]
+//            print(placemark.country!)
+//            print(placemark.administrativeArea!)
+//            print(placemark.subAdministrativeArea!)
+//            
+//            if let city = placemark.addressDictionary?["City"] {
+//                print(city)
+//            }
+//        })
+        getWeatherData()
     }
  
 }

@@ -76,8 +76,6 @@ class MainViewController: UIViewController {
     func shareToNetwork() {
     
     }
-    
-
 }
 
 
@@ -88,24 +86,27 @@ extension MainViewController: UICollectionViewDataSource,
         return viewModel.weathers.count
     }
     
-    // 必須實作的方法：每個 cell 要顯示的內容
     func collectionView(_ collectionView: UICollectionView,
                         cellForItemAt indexPath: IndexPath)
         -> UICollectionViewCell {
-            // 依據前面註冊設置的識別名稱 "Cell" 取得目前使用的 cell
-            let cell =
-                collectionView.dequeueReusableCell(
-                    withReuseIdentifier: "mainCell", for: indexPath)
             
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "mainCell", for: indexPath) as! MainCollectionViewCell
             cell.frame.size.width = 125
             cell.frame.size.height = 165
         
+            let w = viewModel.weathers[indexPath.item]
+            let maxString = w["temp"]["max"].stringValue
+            let minString = w["temp"]["min"].stringValue
+            let max = Int(Float(maxString)!)
+            let min = Int(Float(minString)!)
+            cell.lbDegrees.text = "\(String(describing: min)) ~\(String(describing: max))°C"
             
-//            // 設置 cell 內容 (即自定義元件裡 增加的圖片與文字元件)
-//            cell.imageView.image = 
-//                UIImage(named: "0\(indexPath.item + 1).jpg")
-//            cell.titleLabel.text = "0\(indexPath.item + 1)"
             
+            let date = NSDate(timeIntervalSince1970: w["dt"].doubleValue)
+            let dayTimePeriodFormatter = DateFormatter()
+            dayTimePeriodFormatter.dateFormat = "MMM dd"
+            let dateString = dayTimePeriodFormatter.string(from: date as Date)
+            cell.lbDate.text = dateString
             return cell
     }
     
@@ -113,11 +114,24 @@ extension MainViewController: UICollectionViewDataSource,
 
 extension MainViewController: MainViewModalProtocol{
     func getDataFinished() {
-        let date = NSDate(timeIntervalSince1970: 1415637900)
+   
+        let todayWeather = viewModel.weathers[0]
+        
+        let date = NSDate(timeIntervalSince1970: todayWeather["dt"].doubleValue)
         let dayTimePeriodFormatter = DateFormatter()
         dayTimePeriodFormatter.dateFormat = "MMM dd YYYY"
         let dateString = dayTimePeriodFormatter.string(from: date as Date)
         lbDate.text = dateString
-        lbCity.text = viewModel.country! + viewModel.city!
+        lbCity.text = viewModel.country! + ", " + viewModel.city!
+    
+        let maxString = todayWeather["temp"]["max"].stringValue
+        let minString = todayWeather["temp"]["min"].stringValue
+        let max = Int(Float(maxString)!)
+        let min = Int(Float(minString)!)
+        lbDegree.text = "\(String(describing: min)) ~\(String(describing: max))°C"
+   
+        collectionView.reloadData()
     }
+    
+    
 }
