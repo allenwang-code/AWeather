@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Alamofire
 
 class MainViewController: UIViewController {
 
@@ -18,6 +19,7 @@ class MainViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+
         viewModel = MainViewModal()
         viewModel.getData()
         viewModel.askGPS()
@@ -25,7 +27,7 @@ class MainViewController: UIViewController {
         setUpCollctionViewCell()
         setUpNavigationBar()
       
-     
+        getWeatherData()
     }
 
     override func didReceiveMemoryWarning() {
@@ -72,6 +74,42 @@ class MainViewController: UIViewController {
     func shareToNetwork() {
     
     }
+    
+    private func getWeatherData() {
+        if Constant.KEY.isEmpty { getAPIKeyFromPlist() }
+    
+        let coordinate = viewModel.currentLocation.coordinate
+        let parameters: Parameters = ["lat": coordinate.latitude,
+                                      "lon": coordinate.longitude,
+                                      "APPID": Constant.KEY]
+
+        
+        Alamofire.request(Constant.FORECAST_URL, parameters: parameters).responseJSON { response in
+            print("Request: \(String(describing: response.request))")   // original url request
+            print("Response: \(String(describing: response.response))") // http url response
+            print("Result: \(response.result)")                         // response serialization result
+            
+            if let json = response.result.value {
+                print("JSON: \(json)") // serialized json response
+            }
+            
+            if let data = response.data, let utf8Text = String(data: data, encoding: .utf8) {
+                print("Data: \(utf8Text)") // original server data as UTF8 string
+            }
+        }
+    
+    
+    }
+    
+    private func getAPIKeyFromPlist() {
+        var keys: NSDictionary?
+        if let path = Bundle.main.path(forResource: "Keys", ofType: "plist") {
+            keys = NSDictionary(contentsOfFile: path)
+        }
+        if let dict = keys {
+            Constant.KEY = dict["weatherAPI key"] as? String ?? ""
+        }
+    }
 }
 
 
@@ -91,7 +129,7 @@ extension MainViewController: UICollectionViewDataSource,
                 collectionView.dequeueReusableCell(
                     withReuseIdentifier: "mainCell", for: indexPath)
             
-            let screenSize = UIScreen.main.bounds
+//            let screenSize = UIScreen.main.bounds
             //let screenWidth = screenSize.width
             //let screenHeight = screenSize.height
             

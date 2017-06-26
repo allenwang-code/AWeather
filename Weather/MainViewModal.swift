@@ -12,7 +12,7 @@ import CoreLocation
 class MainViewModal: NSObject{
 
     let locationManager = CLLocationManager()
-    var currentLocation = CLLocation(latitude: 7.39, longitude: 51.30)
+    var currentLocation = Constant.LONDON
     
     func askGPS() {
         // Ask for Authorisation from the User.

@@ -20,6 +20,8 @@
 		DD64B4AD1EFE300C00436CA5 /* WeatherTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD64B4AC1EFE300C00436CA5 /* WeatherTests.swift */; };
 		DD64B4B81EFE300D00436CA5 /* WeatherUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD64B4B71EFE300D00436CA5 /* WeatherUITests.swift */; };
 		DDFAC3A81F00DE57001A4FE7 /* MainColletionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = DDFAC3A71F00DE57001A4FE7 /* MainColletionViewCell.xib */; };
+		DDFAC3AA1F00DF0B001A4FE7 /* Constant.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDFAC3A91F00DF0B001A4FE7 /* Constant.swift */; };
+		DDFAC3AC1F00E2A6001A4FE7 /* Keys.plist in Resources */ = {isa = PBXBuildFile; fileRef = DDFAC3AB1F00E2A6001A4FE7 /* Keys.plist */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -64,6 +66,8 @@
 		DD64B4B71EFE300D00436CA5 /* WeatherUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherUITests.swift; sourceTree = "<group>"; };
 		DD64B4B91EFE300D00436CA5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		DDFAC3A71F00DE57001A4FE7 /* MainColletionViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MainColletionViewCell.xib; sourceTree = "<group>"; };
+		DDFAC3A91F00DF0B001A4FE7 /* Constant.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constant.swift; sourceTree = "<group>"; };
+		DDFAC3AB1F00E2A6001A4FE7 /* Keys.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Keys.plist; sourceTree = "<group>"; };
 		E1968E67D8ED8763C4974B05 /* Pods_WeatherTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_WeatherTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -148,10 +152,12 @@
 				DD64B49E1EFE300C00436CA5 /* Assets.xcassets */,
 				DD64B4A31EFE300C00436CA5 /* Info.plist */,
 				DD3E9F191EFEA311004F7A52 /* MainViewController.swift */,
-				DDFAC3A71F00DE57001A4FE7 /* MainColletionViewCell.xib */,
 				DD3E9F231EFFD516004F7A52 /* MainViewModal.swift */,
+				DDFAC3A71F00DE57001A4FE7 /* MainColletionViewCell.xib */,
 				DD3E9F1A1EFEA311004F7A52 /* MainViewController.xib */,
 				DD3E9F211EFEBD1F004F7A52 /* Utility.swift */,
+				DDFAC3A91F00DF0B001A4FE7 /* Constant.swift */,
+				DDFAC3AB1F00E2A6001A4FE7 /* Keys.plist */,
 			);
 			path = Weather;
 			sourceTree = "<group>";
@@ -251,7 +257,7 @@
 				TargetAttributes = {
 					DD64B4931EFE300C00436CA5 = {
 						CreatedOnToolsVersion = 8.3.3;
-						DevelopmentTeam = CZY694H42E;
+						DevelopmentTeam = X398R58965;
 						ProvisioningStyle = Automatic;
 					};
 					DD64B4A71EFE300C00436CA5 = {
@@ -295,6 +301,7 @@
 				DD3E9F1C1EFEA311004F7A52 /* MainViewController.xib in Resources */,
 				DD3E9F181EFE3AF3004F7A52 /* WelcomPageView.storyboard in Resources */,
 				DDFAC3A81F00DE57001A4FE7 /* MainColletionViewCell.xib in Resources */,
+				DDFAC3AC1F00E2A6001A4FE7 /* Keys.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -459,6 +466,7 @@
 			files = (
 				DD3E9F1B1EFEA311004F7A52 /* MainViewController.swift in Sources */,
 				DD64B4981EFE300C00436CA5 /* AppDelegate.swift in Sources */,
+				DDFAC3AA1F00DF0B001A4FE7 /* Constant.swift in Sources */,
 				DD3E9F221EFEBD1F004F7A52 /* Utility.swift in Sources */,
 				DD3E9F241EFFD516004F7A52 /* MainViewModal.swift in Sources */,
 			);
@@ -596,7 +604,7 @@
 			baseConfigurationReference = 527DCFD88A602315EAFB59AC /* Pods-Weather.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = CZY694H42E;
+				DEVELOPMENT_TEAM = X398R58965;
 				INFOPLIST_FILE = Weather/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -611,7 +619,7 @@
 			baseConfigurationReference = 51A719D83F09254D4003340F /* Pods-Weather.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = CZY694H42E;
+				DEVELOPMENT_TEAM = X398R58965;
 				INFOPLIST_FILE = Weather/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
