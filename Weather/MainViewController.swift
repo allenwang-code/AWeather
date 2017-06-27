@@ -26,7 +26,6 @@ class MainViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-
         viewModel = MainViewModal(handler: self)
         viewModel.askGPS()
         viewModel.getWeatherData()
@@ -40,16 +39,24 @@ class MainViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
-    func goto() {
+    func goto(from btn: UIButton) {
         let config = GMSPlacePickerConfig(viewport: nil)
         let placePicker = GMSPlacePickerViewController(config: config)
         placePicker.delegate = self
         placePicker.modalPresentationStyle = .popover
+        placePicker.popoverPresentationController?.sourceView = btn
+        placePicker.popoverPresentationController?.sourceRect = btn.bounds
         self.present(placePicker, animated: true, completion: nil)
     }
     
     func shareToNetwork() {
-        
+        if let image = Util.getScreenShot() {
+            Util.shareToSocailMedia(from: self, with: image)
+        } else {
+            let alert = UIAlertController(title: "", message: "Message", preferredStyle: UIAlertControllerStyle.alert)
+            alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: nil))
+            self.present(alert, animated: true, completion: nil)
+        }
     }
     
     private func setUpCollctionViewCell() {
@@ -69,7 +76,7 @@ class MainViewController: UIViewController {
         
         let map = UIButton()
         map.setImage(#imageLiteral(resourceName: "map-1"), for: UIControlState.normal)
-        map.addTarget(self, action:#selector(goto), for: .touchUpInside)
+        map.addTarget(self, action:#selector(goto(from:)), for: .touchUpInside)
         map.frame = CGRect.init(x: 0, y: 0, width: 30, height: 30)
         let mapItem = UIBarButtonItem.init(customView: map)
         
@@ -98,8 +105,6 @@ extension MainViewController: UICollectionViewDataSource,
         -> UICollectionViewCell {
             
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "mainCell", for: indexPath) as! MainCollectionViewCell
-            //cell.frame.size.width = 125
-            //cell.frame.size.height = 165
         
             let w = viewModel.weathers[indexPath.item]
             let icon = w["weather"][0]["icon"].stringValue
@@ -110,7 +115,6 @@ extension MainViewController: UICollectionViewDataSource,
             let url = URL(string: Constant.WEATHER_IMAGE_URL + icon + ".png")
             cell.ivWeather.kf.setImage(with: url)
             cell.lbDegrees.text = "\(String(describing: min)) ~\(String(describing: max))°C"
-            
             
             let date = NSDate(timeIntervalSince1970: w["dt"].doubleValue)
             let dayTimePeriodFormatter = DateFormatter()
@@ -150,6 +154,7 @@ extension MainViewController: MainViewModalProtocol{
    
         let todayWeather = viewModel.weathers[0]
         
+        
         let date = NSDate(timeIntervalSince1970: todayWeather["dt"].doubleValue)
         let dayTimePeriodFormatter = DateFormatter()
         dayTimePeriodFormatter.dateFormat = "MMM dd YYYY"
@@ -162,8 +167,13 @@ extension MainViewController: MainViewModalProtocol{
         let max = Int(Float(maxString)!)
         let min = Int(Float(minString)!)
         lbDegree.text = "\(String(describing: min)) ~\(String(describing: max))°C"
-   
+        
+        let icon = todayWeather["weather"][0]["icon"].stringValue
+        let url = URL(string: Constant.WEATHER_IMAGE_URL + icon + ".png")
+        ivWeather.kf.setImage(with: url)
+
         collectionView.reloadData()
+
     }
     
     
