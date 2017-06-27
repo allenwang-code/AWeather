@@ -21,6 +21,7 @@ import CoreLocation
 class Constant {
     public static let LONDON = CLLocation(latitude: 51.509865, longitude: -0.118092)
     public static let FORECAST_URL = "http://api.openweathermap.org/data/\(VERSION)/forecast/daily"
+    public static let WEATHER_IMAGE_URL = "https://openweathermap.org/img/w/"
     public static let CELSIUS = "metric"
     private static let VERSION = "2.5"
     

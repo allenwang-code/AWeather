@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Kingfisher
 import GooglePlacePicker
 
 
@@ -37,6 +38,18 @@ class MainViewController: UIViewController {
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+    
+    func goto() {
+        let config = GMSPlacePickerConfig(viewport: nil)
+        let placePicker = GMSPlacePickerViewController(config: config)
+        placePicker.delegate = self
+        placePicker.modalPresentationStyle = .popover
+        self.present(placePicker, animated: true, completion: nil)
+    }
+    
+    func shareToNetwork() {
+        
     }
     
     private func setUpCollctionViewCell() {
@@ -70,18 +83,6 @@ class MainViewController: UIViewController {
         let buttonArray = [shareItem, mapItem, locationItem]
         self.navigationItem.setRightBarButtonItems(buttonArray, animated: true)
     }
- 
-    func goto() {
-        let config = GMSPlacePickerConfig(viewport: nil)
-        let placePicker = GMSPlacePickerViewController(config: config)
-        placePicker.delegate = self
-        placePicker.modalPresentationStyle = .popover
-        self.present(placePicker, animated: true, completion: nil)
-    }
-    
-    func shareToNetwork() {
-    
-    }
 }
 
 
@@ -97,14 +98,17 @@ extension MainViewController: UICollectionViewDataSource,
         -> UICollectionViewCell {
             
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "mainCell", for: indexPath) as! MainCollectionViewCell
-            cell.frame.size.width = 125
-            cell.frame.size.height = 165
+            //cell.frame.size.width = 125
+            //cell.frame.size.height = 165
         
             let w = viewModel.weathers[indexPath.item]
+            let icon = w["weather"][0]["icon"].stringValue
             let maxString = w["temp"]["max"].stringValue
             let minString = w["temp"]["min"].stringValue
             let max = Int(Float(maxString)!)
             let min = Int(Float(minString)!)
+            let url = URL(string: Constant.WEATHER_IMAGE_URL + icon + ".png")
+            cell.ivWeather.kf.setImage(with: url)
             cell.lbDegrees.text = "\(String(describing: min)) ~\(String(describing: max))°C"
             
             
@@ -120,20 +124,16 @@ extension MainViewController: UICollectionViewDataSource,
 
 extension MainViewController : GMSPlacePickerViewControllerDelegate {
     func placePicker(_ viewController: GMSPlacePickerViewController, didPick place: GMSPlace) {
-        // Create the next view controller we are going to display and present it.
-//        let nextScreen = PlaceDetailViewController(place: place)
-//        self.splitPaneViewController?.push(viewController: nextScreen, animated: false)
-//        self.mapViewController?.coordinate = place.coordinate
-//        
-//        // Dismiss the place picker.
-//        viewController.dismiss(animated: true, completion: nil)
-
-        print(place.coordinate)
+        let c = place.coordinate
+        print(c)
+        viewModel.currentLocation = CLLocation(latitude: c.latitude, longitude: c.longitude)
+        viewModel.getWeatherData()
+        
+        // Dismiss the place picker.
+        viewController.dismiss(animated: true, completion: nil)
     }
     
     func placePicker(_ viewController: GMSPlacePickerViewController, didFailWithError error: Error) {
-        // In your own app you should handle this better, but for the demo we are just going to log
-        // a message.
         NSLog("An error occurred while picking a place: \(error)")
     }
     

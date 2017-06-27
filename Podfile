@@ -8,6 +8,7 @@ target 'Weather' do
   # Pods for Weather
   pod 'Alamofire', '~> 4.4'
   pod 'SwiftyJSON'
+  pod 'Kingfisher', '~> 3.0'
   pod 'GoogleMaps'
   pod 'GooglePlaces'
   pod 'GooglePlacePicker'
