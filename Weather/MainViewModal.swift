@@ -45,13 +45,11 @@ class MainViewModal: NSObject{
     }
     
     func getWeatherData() {
-        if Constant.KEY.isEmpty { getAPIKeyFromPlist() }
-        
         let coordinate = currentLocation.coordinate
         let parameters: Parameters = ["lat": coordinate.latitude,
                                       "lon": coordinate.longitude,
                                       "units": Constant.CELSIUS,
-                                      "APPID": Constant.KEY]
+                                      "APPID": Constant.WEATHER_API_KEY]
         
 
         Alamofire.request(Constant.FORECAST_URL, parameters: parameters).responseJSON { response in
@@ -78,16 +76,7 @@ class MainViewModal: NSObject{
         
     }
     
-    private func getAPIKeyFromPlist() {
-        var keys: NSDictionary?
-        if let path = Bundle.main.path(forResource: "Keys", ofType: "plist") {
-            keys = NSDictionary(contentsOfFile: path)
-        }
-        if let dict = keys {
-            Constant.KEY = dict["weatherAPI key"] as? String ?? ""
-        }
-    }
-}
+  }
 
 extension MainViewModal: CLLocationManagerDelegate {
 

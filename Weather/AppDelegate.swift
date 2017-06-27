@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import GooglePlaces
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -22,6 +23,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         self.window!.rootViewController = viewController
         self.window!.makeKeyAndVisible()
         viewController.pushViewController(MainViewController(), animated: true)
+        
+        getAPIKeyFromPlist()
         
         return true
     }
@@ -48,6 +51,20 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
     }
 
+}
 
+extension AppDelegate {
+    fileprivate func getAPIKeyFromPlist() {
+        var keys: NSDictionary?
+        if let path = Bundle.main.path(forResource: "Keys", ofType: "plist") {
+            keys = NSDictionary(contentsOfFile: path)
+        }
+        if let dict = keys {
+            Constant.WEATHER_API_KEY = dict["weatherAPI key"] as? String ?? ""
+            Constant.MAP_API_KEY = dict["GoogleMap key"] as? String ?? ""
+        }
+        
+        GMSPlacesClient.provideAPIKey(Constant.MAP_API_KEY)
+    }
 }
 

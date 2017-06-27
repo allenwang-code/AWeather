@@ -8,6 +8,9 @@ target 'Weather' do
   # Pods for Weather
   pod 'Alamofire', '~> 4.4'
   pod 'SwiftyJSON'
+  pod 'GoogleMaps'
+  pod 'GooglePlaces'
+  pod 'GooglePlacePicker'
 
   target 'WeatherTests' do
     inherit! :search_paths
