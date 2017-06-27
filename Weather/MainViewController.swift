@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import AVFoundation
 import Kingfisher
 import GooglePlacePicker
 import PKHUD
@@ -27,11 +28,12 @@ class MainViewController: UIViewController {
         super.viewDidLoad()
         
         viewModel = MainViewModal(handler: self)
+        viewModel.prepareAudioSession()
         viewModel.askGPS()
         viewModel.getWeatherData()
 
         setUpCollctionViewCell()
-        setUpNavigationBar()
+        setUpNavigationBar()        
     }
 
     override func didReceiveMemoryWarning() {
@@ -49,12 +51,15 @@ class MainViewController: UIViewController {
         self.present(placePicker, animated: true, completion: nil)
     }
     
-    func shareToNetwork() {
+    func shareToNetwork(from btn: UIButton) {
         if let image = Util.getScreenShot() {
-            Util.shareToSocailMedia(from: self, with: image)
+            Util.shareToSocailMedia(from: self, on: btn, with: image)
         } else {
             let alert = UIAlertController(title: "", message: "Message", preferredStyle: UIAlertControllerStyle.alert)
             alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: nil))
+            alert.popoverPresentationController?.sourceView = btn
+            alert.popoverPresentationController?.sourceRect = btn.bounds
+
             self.present(alert, animated: true, completion: nil)
         }
     }
@@ -82,9 +87,10 @@ class MainViewController: UIViewController {
         
         let share = UIButton()
         share.setImage(#imageLiteral(resourceName: "share"), for: UIControlState.normal)
-        share.addTarget(self, action:#selector(shareToNetwork), for: .touchUpInside)
+        share.addTarget(self, action:#selector(shareToNetwork(from:)), for: .touchUpInside)
         share.frame = CGRect.init(x: 0, y: 0, width: 30, height: 30)
         let shareItem = UIBarButtonItem.init(customView: share)
+
         
 
         let buttonArray = [shareItem, mapItem, locationItem]
@@ -100,12 +106,16 @@ extension MainViewController: UICollectionViewDataSource,
         return viewModel.weathers.count
     }
     
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        tappedCell(at: indexPath)
+    }
+    
     func collectionView(_ collectionView: UICollectionView,
                         cellForItemAt indexPath: IndexPath)
         -> UICollectionViewCell {
             
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "mainCell", for: indexPath) as! MainCollectionViewCell
-        
+
             let w = viewModel.weathers[indexPath.item]
             let icon = w["weather"][0]["icon"].stringValue
             let maxString = w["temp"]["max"].stringValue
@@ -124,6 +134,25 @@ extension MainViewController: UICollectionViewDataSource,
             return cell
     }
     
+    private func tappedCell(at indexPath: IndexPath) {
+        let w = viewModel.weathers[indexPath.item]
+        let icon = w["weather"][0]["icon"].stringValue
+        let maxString = w["temp"]["max"].stringValue
+        let minString = w["temp"]["min"].stringValue
+        let date = NSDate(timeIntervalSince1970: w["dt"].doubleValue)
+        let dayTimePeriodFormatter = DateFormatter()
+        dayTimePeriodFormatter.dateFormat = "MMM dd"
+        let dateString = dayTimePeriodFormatter.string(from: date as Date)
+
+        let outline = w["weather"][0]["main"].stringValue
+        
+        let utterrance = AVSpeechUtterance(string: "\(dateString) in \(viewModel.city!) is forecasted" +
+            "to be \(minString) degrees to \(maxString) degrees and \(outline)")
+        utterrance.voice = AVSpeechSynthesisVoice(language: "en-GB")
+        
+        let synth = AVSpeechSynthesizer()
+        synth.speak(utterrance)
+    }
 }
 
 extension MainViewController : GMSPlacePickerViewControllerDelegate {

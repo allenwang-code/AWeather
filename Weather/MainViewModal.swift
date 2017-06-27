@@ -10,6 +10,7 @@ import UIKit
 import CoreLocation
 import Alamofire
 import SwiftyJSON
+import AVFoundation
 
 protocol MainViewModalProtocol {
     func getDataFinished()
@@ -41,7 +42,6 @@ class MainViewModal: NSObject{
             locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
             locationManager.startUpdatingLocation()
         }
-    
     }
     
     func getWeatherData() {
@@ -53,9 +53,9 @@ class MainViewModal: NSObject{
         
 
         Alamofire.request(Constant.FORECAST_URL, parameters: parameters).responseJSON { response in
-            print("Request: \(String(describing: response.request))")   // original url request
-            print("Response: \(String(describing: response.response))") // http url response
-            print("Result: \(response.result)")                         // response serialization result
+            //print("Request: \(String(describing: response.request))")   // original url request
+            //print("Response: \(String(describing: response.response))") // http url response
+            //print("Result: \(response.result)")                         // response serialization result
             
             if let jsonString = response.result.value {
                 print("JSON: \(jsonString)") // serialized json response
@@ -68,12 +68,25 @@ class MainViewModal: NSObject{
                 self.handler.getDataFinished()
             }
             
-            if let data = response.data, let utf8Text = String(data: data, encoding: .utf8) {
-                print("Data: \(utf8Text)") // original server data as UTF8 string
-            }
+//            if let data = response.data, let utf8Text = String(data: data, encoding: .utf8) {
+//                print("Data: \(utf8Text)") // original server data as UTF8 string
+//            }
+        }
+    }
+    
+    
+    func prepareAudioSession() {
+        do {
+            try AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategoryAmbient, with: .mixWithOthers)
+        } catch {
+            print(error)
         }
         
-        
+        do {
+            try AVAudioSession.sharedInstance().setActive(true)
+        } catch {
+            print(error)
+        }
     }
     
   }

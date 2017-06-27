@@ -29,13 +29,17 @@ class Util {
         return screenshot
     }
     
-    public static func shareToSocailMedia(from vc: UIViewController, with image:UIImage, and text: String = "") {
+    public static func shareToSocailMedia(from vc:UIViewController, on btn:UIButton,
+                                          with image:UIImage, and text: String = "") {
         let message = text.isEmpty ? "Shared by Aweather." : text
         // let link = NSURL(string: "http://yo.com")
         
         let objectsToShare = [message, image] as [Any]
         let activityVC = UIActivityViewController(activityItems: objectsToShare, applicationActivities: nil)
         activityVC.excludedActivityTypes = [UIActivityType.airDrop, UIActivityType.addToReadingList]
+        activityVC.popoverPresentationController?.sourceView = btn
+        activityVC.popoverPresentationController?.sourceRect = btn.bounds
+
         vc.present(activityVC, animated: true, completion: nil)
     }
 
