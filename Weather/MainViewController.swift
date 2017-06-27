@@ -9,7 +9,7 @@
 import UIKit
 import Kingfisher
 import GooglePlacePicker
-
+import PKHUD
 
 class MainViewController: UIViewController {
 
@@ -152,6 +152,8 @@ extension MainViewController : GMSPlacePickerViewControllerDelegate {
 extension MainViewController: MainViewModalProtocol{
     func getDataFinished() {
    
+        HUD.flash(.progress, delay: 1.0)
+
         let todayWeather = viewModel.weathers[0]
         
         
