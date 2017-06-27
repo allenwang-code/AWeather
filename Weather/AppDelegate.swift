@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import GoogleMaps
 import GooglePlaces
 
 @UIApplicationMain
@@ -64,6 +65,7 @@ extension AppDelegate {
             Constant.MAP_API_KEY = dict["GoogleMap key"] as? String ?? ""
         }
         
+        GMSServices.provideAPIKey(Constant.MAP_API_KEY)
         GMSPlacesClient.provideAPIKey(Constant.MAP_API_KEY)
     }
 }

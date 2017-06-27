@@ -7,6 +7,8 @@
 //
 
 import UIKit
+import GooglePlacePicker
+
 
 class MainViewController: UIViewController {
 
@@ -70,7 +72,11 @@ class MainViewController: UIViewController {
     }
  
     func goto() {
-    
+        let config = GMSPlacePickerConfig(viewport: nil)
+        let placePicker = GMSPlacePickerViewController(config: config)
+        placePicker.delegate = self
+        placePicker.modalPresentationStyle = .popover
+        self.present(placePicker, animated: true, completion: nil)
     }
     
     func shareToNetwork() {
@@ -111,6 +117,33 @@ extension MainViewController: UICollectionViewDataSource,
     }
     
 }
+
+extension MainViewController : GMSPlacePickerViewControllerDelegate {
+    func placePicker(_ viewController: GMSPlacePickerViewController, didPick place: GMSPlace) {
+        // Create the next view controller we are going to display and present it.
+//        let nextScreen = PlaceDetailViewController(place: place)
+//        self.splitPaneViewController?.push(viewController: nextScreen, animated: false)
+//        self.mapViewController?.coordinate = place.coordinate
+//        
+//        // Dismiss the place picker.
+//        viewController.dismiss(animated: true, completion: nil)
+
+        print(place.coordinate)
+    }
+    
+    func placePicker(_ viewController: GMSPlacePickerViewController, didFailWithError error: Error) {
+        // In your own app you should handle this better, but for the demo we are just going to log
+        // a message.
+        NSLog("An error occurred while picking a place: \(error)")
+    }
+    
+    func placePickerDidCancel(_ viewController: GMSPlacePickerViewController) {
+        NSLog("The place picker was canceled by the user")
+        // Dismiss the place picker.
+        viewController.dismiss(animated: true, completion: nil)
+    }
+}
+
 
 extension MainViewController: MainViewModalProtocol{
     func getDataFinished() {
