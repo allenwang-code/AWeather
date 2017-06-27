@@ -17,6 +17,8 @@
 		DD3E9F241EFFD516004F7A52 /* MainViewModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD3E9F231EFFD516004F7A52 /* MainViewModal.swift */; };
 		DD3E9F261F015D0C004F7A52 /* MainCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD3E9F251F015D0C004F7A52 /* MainCollectionViewCell.swift */; };
 		DD3E9F291F02A176004F7A52 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD3E9F281F02A176004F7A52 /* AVFoundation.framework */; };
+		DD3E9F2D1F02BA00004F7A52 /* HistoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD3E9F2B1F02BA00004F7A52 /* HistoryViewController.swift */; };
+		DD3E9F2E1F02BA00004F7A52 /* HistoryViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = DD3E9F2C1F02BA00004F7A52 /* HistoryViewController.xib */; };
 		DD64B4981EFE300C00436CA5 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD64B4971EFE300C00436CA5 /* AppDelegate.swift */; };
 		DD64B49F1EFE300C00436CA5 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DD64B49E1EFE300C00436CA5 /* Assets.xcassets */; };
 		DD64B4AD1EFE300C00436CA5 /* WeatherTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD64B4AC1EFE300C00436CA5 /* WeatherTests.swift */; };
@@ -58,8 +60,9 @@
 		DD3E9F211EFEBD1F004F7A52 /* Util.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Util.swift; sourceTree = "<group>"; };
 		DD3E9F231EFFD516004F7A52 /* MainViewModal.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainViewModal.swift; sourceTree = "<group>"; };
 		DD3E9F251F015D0C004F7A52 /* MainCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainCollectionViewCell.swift; sourceTree = "<group>"; };
-		DD3E9F271F02A0F6004F7A52 /* Weather.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Weather.entitlements; sourceTree = "<group>"; };
 		DD3E9F281F02A176004F7A52 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
+		DD3E9F2B1F02BA00004F7A52 /* HistoryViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HistoryViewController.swift; sourceTree = "<group>"; };
+		DD3E9F2C1F02BA00004F7A52 /* HistoryViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HistoryViewController.xib; sourceTree = "<group>"; };
 		DD64B4941EFE300C00436CA5 /* Weather.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Weather.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DD64B4971EFE300C00436CA5 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		DD64B49E1EFE300C00436CA5 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -129,6 +132,18 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		DD3E9F2A1F02B89F004F7A52 /* MainView */ = {
+			isa = PBXGroup;
+			children = (
+				DD3E9F191EFEA311004F7A52 /* MainViewController.swift */,
+				DD3E9F1A1EFEA311004F7A52 /* MainViewController.xib */,
+				DD3E9F231EFFD516004F7A52 /* MainViewModal.swift */,
+				DDFAC3A71F00DE57001A4FE7 /* MainColletionViewCell.xib */,
+				DD3E9F251F015D0C004F7A52 /* MainCollectionViewCell.swift */,
+			);
+			name = MainView;
+			sourceTree = "<group>";
+		};
 		DD64B48B1EFE300C00436CA5 = {
 			isa = PBXGroup;
 			children = (
@@ -154,19 +169,16 @@
 		DD64B4961EFE300C00436CA5 /* Weather */ = {
 			isa = PBXGroup;
 			children = (
-				DD3E9F271F02A0F6004F7A52 /* Weather.entitlements */,
-				DD64B4971EFE300C00436CA5 /* AppDelegate.swift */,
-				DD3E9F171EFE3AF3004F7A52 /* WelcomPageView.storyboard */,
 				DD64B49E1EFE300C00436CA5 /* Assets.xcassets */,
 				DD64B4A31EFE300C00436CA5 /* Info.plist */,
-				DD3E9F191EFEA311004F7A52 /* MainViewController.swift */,
-				DD3E9F1A1EFEA311004F7A52 /* MainViewController.xib */,
-				DD3E9F231EFFD516004F7A52 /* MainViewModal.swift */,
+				DDFAC3AB1F00E2A6001A4FE7 /* Keys.plist */,
+				DD64B4971EFE300C00436CA5 /* AppDelegate.swift */,
+				DD3E9F171EFE3AF3004F7A52 /* WelcomPageView.storyboard */,
+				DD3E9F2A1F02B89F004F7A52 /* MainView */,
 				DD3E9F211EFEBD1F004F7A52 /* Util.swift */,
 				DDFAC3A91F00DF0B001A4FE7 /* Constant.swift */,
-				DDFAC3AB1F00E2A6001A4FE7 /* Keys.plist */,
-				DDFAC3A71F00DE57001A4FE7 /* MainColletionViewCell.xib */,
-				DD3E9F251F015D0C004F7A52 /* MainCollectionViewCell.swift */,
+				DD3E9F2B1F02BA00004F7A52 /* HistoryViewController.swift */,
+				DD3E9F2C1F02BA00004F7A52 /* HistoryViewController.xib */,
 			);
 			path = Weather;
 			sourceTree = "<group>";
@@ -316,6 +328,7 @@
 				DD3E9F181EFE3AF3004F7A52 /* WelcomPageView.storyboard in Resources */,
 				DDFAC3A81F00DE57001A4FE7 /* MainColletionViewCell.xib in Resources */,
 				DDFAC3AC1F00E2A6001A4FE7 /* Keys.plist in Resources */,
+				DD3E9F2E1F02BA00004F7A52 /* HistoryViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -483,6 +496,7 @@
 				DD64B4981EFE300C00436CA5 /* AppDelegate.swift in Sources */,
 				DDFAC3AA1F00DF0B001A4FE7 /* Constant.swift in Sources */,
 				DD3E9F221EFEBD1F004F7A52 /* Util.swift in Sources */,
+				DD3E9F2D1F02BA00004F7A52 /* HistoryViewController.swift in Sources */,
 				DD3E9F241EFFD516004F7A52 /* MainViewModal.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -560,7 +574,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -605,7 +619,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
@@ -619,7 +633,6 @@
 			baseConfigurationReference = 527DCFD88A602315EAFB59AC /* Pods-Weather.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_ENTITLEMENTS = Weather/Weather.entitlements;
 				DEVELOPMENT_TEAM = CZY694H42E;
 				INFOPLIST_FILE = Weather/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
@@ -635,7 +648,6 @@
 			baseConfigurationReference = 51A719D83F09254D4003340F /* Pods-Weather.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_ENTITLEMENTS = Weather/Weather.entitlements;
 				DEVELOPMENT_TEAM = CZY694H42E;
 				INFOPLIST_FILE = Weather/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
