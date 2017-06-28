@@ -16,7 +16,7 @@
 		DD3E9F1B1EFEA311004F7A52 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD3E9F191EFEA311004F7A52 /* MainViewController.swift */; };
 		DD3E9F1C1EFEA311004F7A52 /* MainViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = DD3E9F1A1EFEA311004F7A52 /* MainViewController.xib */; };
 		DD3E9F221EFEBD1F004F7A52 /* Util.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD3E9F211EFEBD1F004F7A52 /* Util.swift */; };
-		DD3E9F241EFFD516004F7A52 /* MainViewModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD3E9F231EFFD516004F7A52 /* MainViewModal.swift */; };
+		DD3E9F241EFFD516004F7A52 /* MainViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD3E9F231EFFD516004F7A52 /* MainViewModel.swift */; };
 		DD3E9F261F015D0C004F7A52 /* MainCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD3E9F251F015D0C004F7A52 /* MainCollectionViewCell.swift */; };
 		DD3E9F291F02A176004F7A52 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD3E9F281F02A176004F7A52 /* AVFoundation.framework */; };
 		DD3E9F2D1F02BA00004F7A52 /* HistoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD3E9F2B1F02BA00004F7A52 /* HistoryViewController.swift */; };
@@ -62,7 +62,7 @@
 		DD3E9F191EFEA311004F7A52 /* MainViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		DD3E9F1A1EFEA311004F7A52 /* MainViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MainViewController.xib; sourceTree = "<group>"; };
 		DD3E9F211EFEBD1F004F7A52 /* Util.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Util.swift; sourceTree = "<group>"; };
-		DD3E9F231EFFD516004F7A52 /* MainViewModal.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainViewModal.swift; sourceTree = "<group>"; };
+		DD3E9F231EFFD516004F7A52 /* MainViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainViewModel.swift; sourceTree = "<group>"; };
 		DD3E9F251F015D0C004F7A52 /* MainCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainCollectionViewCell.swift; sourceTree = "<group>"; };
 		DD3E9F281F02A176004F7A52 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		DD3E9F2B1F02BA00004F7A52 /* HistoryViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HistoryViewController.swift; sourceTree = "<group>"; };
@@ -141,7 +141,7 @@
 			children = (
 				DD3E9F191EFEA311004F7A52 /* MainViewController.swift */,
 				DD3E9F1A1EFEA311004F7A52 /* MainViewController.xib */,
-				DD3E9F231EFFD516004F7A52 /* MainViewModal.swift */,
+				DD3E9F231EFFD516004F7A52 /* MainViewModel.swift */,
 				DDFAC3A71F00DE57001A4FE7 /* MainColletionViewCell.xib */,
 				DD3E9F251F015D0C004F7A52 /* MainCollectionViewCell.swift */,
 			);
@@ -505,7 +505,7 @@
 				DD0B4D4F1F037AD100DFB984 /* HierarchyCollectionViewDelegate.swift in Sources */,
 				DD3E9F2D1F02BA00004F7A52 /* HistoryViewController.swift in Sources */,
 				DD0B4D4D1F034ED300DFB984 /* WeatherModel.swift in Sources */,
-				DD3E9F241EFFD516004F7A52 /* MainViewModal.swift in Sources */,
+				DD3E9F241EFFD516004F7A52 /* MainViewModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

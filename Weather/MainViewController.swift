@@ -24,7 +24,7 @@ class MainViewController: UIViewController {
     @IBOutlet weak var lbCity: UILabel!
     @IBOutlet weak var lbDegree: UILabel!
     
-    var viewModel: MainViewModal!
+    var viewModel: MainViewModel!
     var dailyDelegate :HierarchyCollectionViewDelegate?
     var hourlyDelegate :HierarchyCollectionViewDelegate?
 
@@ -33,7 +33,7 @@ class MainViewController: UIViewController {
         
         checkInternet()
         
-        viewModel = MainViewModal(handler: self)
+        viewModel = MainViewModel(handler: self)
         
         viewModel.prepareAudioSession()
         viewModel.askGPS()
@@ -105,7 +105,7 @@ class MainViewController: UIViewController {
         
         let location = UIButton.init(type: .custom)
         location.setImage(#imageLiteral(resourceName: "current location"), for: UIControlState.normal)
-        location.addTarget(viewModel, action:#selector(MainViewModal.askGPS), for: .touchUpInside)
+        location.addTarget(viewModel, action:#selector(MainViewModel.askGPS), for: .touchUpInside)
         location.frame = CGRect.init(x: 0, y: 0, width: 30, height: 30)
         let locationItem = UIBarButtonItem.init(customView: location)
         
@@ -155,7 +155,7 @@ extension MainViewController : GMSPlacePickerViewControllerDelegate {
     }
 }
 
-extension MainViewController: MainViewModalProtocol{
+extension MainViewController: MainViewModelProtocol{
     func getDailyDataFinished() {
         HUD.flash(.progress, delay: 0.5)
 

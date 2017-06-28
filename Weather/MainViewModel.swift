@@ -1,5 +1,5 @@
 //
-//  MainViewModal.swift
+//  MainViewModel.swift
 //  Weather
 //
 //  Created by Allen Wang on 2017/6/25.
@@ -12,13 +12,13 @@ import Alamofire
 import SwiftyJSON
 import AVFoundation
 
-protocol MainViewModalProtocol {
+protocol MainViewModelProtocol {
     func getDailyDataFinished()
     func getHourlyDataFinished()
 }
 
 
-class MainViewModal: NSObject{
+class MainViewModel: NSObject{
 
     let locationManager = CLLocationManager()
     var currentLocation = Constant.LONDON
@@ -29,9 +29,9 @@ class MainViewModal: NSObject{
     var curWeather:[WeatherModel] = [WeatherModel]()
     var histories:[WeatherModel] = [WeatherModel]()
 
-    var handler: MainViewModalProtocol!
+    var handler: MainViewModelProtocol!
     
-    init(handler: MainViewModalProtocol) {
+    init(handler: MainViewModelProtocol) {
         self.handler = handler
     }
     
@@ -153,7 +153,7 @@ class MainViewModal: NSObject{
     }
   }
 
-extension MainViewModal: CLLocationManagerDelegate {
+extension MainViewModel: CLLocationManagerDelegate {
 
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         guard let location = manager.location else { return }

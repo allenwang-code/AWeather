@@ -12,5 +12,4 @@ class WeatherModel {
     var minDegrees: String = "-"
     var maxDegrees: String = "-"
     var icon: String = "02d"
-
 }

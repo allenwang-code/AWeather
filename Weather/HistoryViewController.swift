@@ -7,12 +7,12 @@
 //
 
 import UIKit
+import CoreLocation
 
 class HistoryViewController: UIViewController {
 
     @IBOutlet weak var tableView: UITableView!
-    
-    
+    var histories: [Int:[String:CLLocationCoordinate2D]] = [0:["Taiwan":CLLocationCoordinate2D(latitude:123, longitude:23)]]
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -24,24 +24,22 @@ class HistoryViewController: UIViewController {
 extension HistoryViewController: UITableViewDelegate, UITableViewDataSource {
 
     func numberOfSections(in tableView: UITableView) -> Int {
-        return 0
+        return histories.count
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 0
+        return 1
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell =
-            tableView.dequeueReusableCell(
-                withIdentifier: "Cell", for: indexPath) as
-        UITableViewCell
-        
+        let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath)
+            as UITableViewCell
+        cell.textLabel?.text = histories[indexPath.item]?.keys.first
         return cell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
+        self.dismiss(animated: true, completion: nil)
     }
 
 }
