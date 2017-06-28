@@ -17,6 +17,7 @@ class MainViewController: UIViewController {
     @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var flow: UICollectionViewFlowLayout!
     
+    @IBOutlet weak var centralBtn: UIButton!
     @IBOutlet weak var ivWeather: UIImageView!
     @IBOutlet weak var lbDate: UILabel!
     @IBOutlet weak var lbCity: UILabel!
@@ -27,7 +28,14 @@ class MainViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        if !Util.isInternetAvailable() {
+            let t = NSLocalizedString("Error", comment: "")
+            let m = NSLocalizedString("Please check your internet status and reopen the app", comment: "")
+            Util.popUpDialog(vc: self, on: centralBtn, title: t, message: m)
+        }
+        
         viewModel = MainViewModal(handler: self)
+        
         viewModel.prepareAudioSession()
         viewModel.askGPS()
         viewModel.getWeatherData()

@@ -21,12 +21,11 @@ class MainViewModal: NSObject{
 
     let locationManager = CLLocationManager()
     var currentLocation = Constant.LONDON
-    
-    var forecasts:[WeatherModel] = [WeatherModel]()
-    
+
     var country: String?
     var city: String?
-    var weathers: [JSON] = [JSON]()
+    var forecasts:[WeatherModel] = [WeatherModel]()
+    var histories:[WeatherModel] = [WeatherModel]()
 
     var handler: MainViewModalProtocol!
     
@@ -35,7 +34,6 @@ class MainViewModal: NSObject{
     }
     
     func askGPS() {
-        // Ask for Authorisation from the User.
         locationManager.requestAlwaysAuthorization()
         // For use in foreground
         locationManager.requestWhenInUseAuthorization()
@@ -58,24 +56,20 @@ class MainViewModal: NSObject{
         Alamofire.request(Constant.FORECAST_URL, parameters: parameters).responseJSON { response in
             // print("Request: \(String(describing: response.request))")   // original url request
             // print("Response: \(String(describing: response.response))") // http url response
-            print("Result: \(response.result)")                         // response serialization result
+            // print("Result: \(response.result)")                         // response serialization result
             
             if let jsonString = response.result.value {
                 let json = JSON(jsonString: jsonString)
-                print("JSON: \(jsonString)") // serialized json response
+                // print("JSON: \(jsonString)")
                 
                 self.country = json["city"]["country"].string ?? "—"
                 self.city = json["city"]["name"].string ?? "—"
                 self.parseObject(from: json)
-                self.weathers = json["list"].array!
-                //let max = weathers?[0]["temp"]["max"].stringValue
-                //let min = weathers?[0]["temp"]["min"].stringValue
+        
                 self.handler.getDataFinished()
+            } else {
+                print("Error")
             }
-            
-//            if let data = response.data, let utf8Text = String(data: data, encoding: .utf8) {
-//                print("Data: \(utf8Text)") // original server data as UTF8 string
-//            }
         }
     }
     
@@ -95,6 +89,7 @@ class MainViewModal: NSObject{
     }
     
     private func parseObject(from json: JSON) {
+        forecasts.removeAll()
         
         guard let list = json["list"].array else { return }
         for item in list {
