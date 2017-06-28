@@ -14,7 +14,8 @@ import PKHUD
 
 class MainViewController: UIViewController {
 
-    @IBOutlet weak var collectionView: UICollectionView!
+    @IBOutlet weak var dailyCollectionView: UICollectionView!
+    @IBOutlet weak var hourlyCollectionView: UICollectionView!
     @IBOutlet weak var flow: UICollectionViewFlowLayout!
     
     @IBOutlet weak var centralBtn: UIButton!
@@ -24,7 +25,9 @@ class MainViewController: UIViewController {
     @IBOutlet weak var lbDegree: UILabel!
     
     var viewModel: MainViewModal!
-    
+    var dailyDelegate :HierarchyCollectionViewDelegate?
+    var hourlyDelegate :HierarchyCollectionViewDelegate?
+
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -78,7 +81,16 @@ class MainViewController: UIViewController {
     
     private func setUpCollctionViewCell() {
         let cell = UINib(nibName: "MainColletionViewCell", bundle: nil)
-        collectionView.register(cell, forCellWithReuseIdentifier: "mainCell")
+
+        dailyDelegate = HierarchyCollectionViewDelegate()
+        dailyCollectionView.register(cell, forCellWithReuseIdentifier: "mainCell")
+        dailyCollectionView.delegate = dailyDelegate
+        dailyCollectionView.dataSource = dailyDelegate
+    
+        hourlyDelegate = HierarchyCollectionViewDelegate()
+        hourlyCollectionView.register(cell, forCellWithReuseIdentifier: "mainCell")
+        hourlyCollectionView.delegate = hourlyDelegate
+        hourlyCollectionView.dataSource = hourlyDelegate
     }
  
     private func setUpNavigationBar() {
@@ -118,43 +130,40 @@ class MainViewController: UIViewController {
 }
 
 
-extension MainViewController: UICollectionViewDataSource,
-    UICollectionViewDelegate {
-    func collectionView(_ collectionView: UICollectionView,
-                        numberOfItemsInSection section: Int) -> Int {
-        return viewModel.forecasts.count
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        tappedCell(at: indexPath)
-    }
-    
-    func collectionView(_ collectionView: UICollectionView,
-                        cellForItemAt indexPath: IndexPath)
-        -> UICollectionViewCell {
-            
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "mainCell", for: indexPath) as! MainCollectionViewCell
-
-            let w = viewModel.forecasts[indexPath.item]
-            let url = URL(string: Constant.WEATHER_IMAGE_URL + w.icon + ".png")
-            
-            cell.ivWeather.kf.setImage(with: url)
-            cell.lbDegrees.text = "\(w.minDegrees) ~\(w.maxDegrees)°C"
-            cell.lbDate.text = Util.tranfer(w.time!)
-            return cell
-    }
-    
-    private func tappedCell(at indexPath: IndexPath) {
-        let w = viewModel.forecasts[indexPath.item]
-        let date = Util.tranfer(w.time!)
-        let utterrance = AVSpeechUtterance(string: "\(date) in \(viewModel.city!) is forecasted" +
-            "to be \(w.minDegrees) degrees to \(w.minDegrees) degrees and \(w.outline)")
-        utterrance.voice = AVSpeechSynthesisVoice(language: "en-GB")
-        
-        let synth = AVSpeechSynthesizer()
-        synth.speak(utterrance)
-    }
-}
+//extension MainViewController: UICollectionViewDataSource, UICollectionViewDelegate {
+//    func collectionView(_ collectionView: UICollectionView,
+//                        numberOfItemsInSection section: Int) -> Int {
+//        return viewModel.forecasts.count
+//    }
+//    
+//    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+//        tappedCell(at: indexPath)
+//    }
+//    
+//    func collectionView(_ collectionView: UICollectionView,
+//                        cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+//            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "mainCell", for: indexPath) as! MainCollectionViewCell
+//
+//            let w = viewModel.forecasts[indexPath.item]
+//            let url = URL(string: Constant.WEATHER_IMAGE_URL + w.icon + ".png")
+//            
+//            cell.ivWeather.kf.setImage(with: url)
+//            cell.lbDegrees.text = "\(w.minDegrees) ~\(w.maxDegrees)°C"
+//            cell.lbDate.text = Util.tranfer(w.time!)
+//            return cell
+//    }
+//    
+//    private func tappedCell(at indexPath: IndexPath) {
+//        let w = viewModel.forecasts[indexPath.item]
+//        let date = Util.tranfer(w.time!)
+//        let utterrance = AVSpeechUtterance(string: "\(date) in \(viewModel.city!) is forecasted" +
+//            "to be \(w.minDegrees) degrees to \(w.minDegrees) degrees and \(w.outline)")
+//        utterrance.voice = AVSpeechSynthesisVoice(language: "en-GB")
+//        
+//        let synth = AVSpeechSynthesizer()
+//        synth.speak(utterrance)
+//    }
+//}
 
 extension MainViewController : GMSPlacePickerViewControllerDelegate {
     func placePicker(_ viewController: GMSPlacePickerViewController, didPick place: GMSPlace) {
@@ -163,7 +172,6 @@ extension MainViewController : GMSPlacePickerViewControllerDelegate {
         viewModel.currentLocation = CLLocation(latitude: c.latitude, longitude: c.longitude)
         viewModel.getWeatherData()
         
-        // Dismiss the place picker.
         viewController.dismiss(animated: true, completion: nil)
     }
     
@@ -173,11 +181,9 @@ extension MainViewController : GMSPlacePickerViewControllerDelegate {
     
     func placePickerDidCancel(_ viewController: GMSPlacePickerViewController) {
         NSLog("The place picker was canceled by the user")
-        // Dismiss the place picker.
         viewController.dismiss(animated: true, completion: nil)
     }
 }
-
 
 extension MainViewController: MainViewModalProtocol{
     func getDataFinished() {
@@ -190,7 +196,10 @@ extension MainViewController: MainViewModalProtocol{
         lbCity.text = viewModel.country! + ", " + viewModel.city!
         lbDegree.text = "\(todayWeather.minDegrees) ~\(todayWeather.maxDegrees)°C"
         ivWeather.kf.setImage(with: url)
-
-        collectionView.reloadData()
+        
+        dailyDelegate?.weathers = viewModel.forecasts
+        hourlyDelegate?.weathers = viewModel.curWeather
+        dailyCollectionView.reloadData()
+        hourlyCollectionView.reloadData()
     }
 }

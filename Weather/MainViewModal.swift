@@ -25,6 +25,7 @@ class MainViewModal: NSObject{
     var country: String?
     var city: String?
     var forecasts:[WeatherModel] = [WeatherModel]()
+    var curWeather:[WeatherModel] = [WeatherModel]()
     var histories:[WeatherModel] = [WeatherModel]()
 
     var handler: MainViewModalProtocol!
@@ -46,7 +47,7 @@ class MainViewModal: NSObject{
     
     func getWeatherData() {
         let coordinate = currentLocation.coordinate
-        let parameters: Parameters = ["lat": coordinate.latitude,
+        var parameters: Parameters = ["lat": coordinate.latitude,
                                       "lon": coordinate.longitude,
                                       "cnt": 10,
                                       "units": Constant.CELSIUS,
@@ -60,12 +61,32 @@ class MainViewModal: NSObject{
             
             if let jsonString = response.result.value {
                 let json = JSON(jsonString: jsonString)
-                // print("JSON: \(jsonString)")
+                 print("JSON: \(jsonString)")
                 
                 self.country = json["city"]["country"].string ?? "—"
                 self.city = json["city"]["name"].string ?? "—"
-                self.parseObject(from: json)
+                self.parse(from: json, to: &self.forecasts)
         
+                self.handler.getDataFinished()
+            } else {
+                print("Error")
+            }
+        }
+        
+        parameters = ["lat": coordinate.latitude,
+                      "lon": coordinate.longitude,
+                      "cnt": 10,
+                      "units": Constant.CELSIUS,
+                      "APPID": Constant.WEATHER_API_KEY]
+        Alamofire.request(Constant.CURRENT_WEATHER_URL, parameters: parameters).responseJSON { response in
+             print("Request: \(String(describing: response.request))")   // original url request
+            // print("Response: \(String(describing: response.response))") // http url response
+            // print("Result: \(response.result)")                         // response serialization result
+            
+            if let jsonString = response.result.value {
+                let json = JSON(jsonString: jsonString)
+                print("JSON: \(jsonString)")
+                self.parse(from: json, to: &self.curWeather)
                 self.handler.getDataFinished()
             } else {
                 print("Error")
@@ -88,8 +109,8 @@ class MainViewModal: NSObject{
         }
     }
     
-    private func parseObject(from json: JSON) {
-        forecasts.removeAll()
+    private func parse(from json: JSON, to array: inout [WeatherModel]) {
+        array.removeAll()
         
         guard let list = json["list"].array else { return }
         for item in list {
@@ -108,11 +129,9 @@ class MainViewModal: NSObject{
             w.minDegrees = String(min)
             w.time = time
             
-            forecasts.append(w)
+            array.append(w)
         }
-        
     }
-    
   }
 
 extension MainViewModal: CLLocationManagerDelegate {
