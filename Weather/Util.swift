@@ -9,6 +9,14 @@
 import Foundation
 import UIKit
 class Util {
+    
+    public static func tranfer(time: Double, to format: String = "MMM dd") -> String {
+        let date = NSDate(timeIntervalSince1970: time)
+        let dayTimePeriodFormatter = DateFormatter()
+        let dateString = dayTimePeriodFormatter.string(from: date as Date)
+        return dateString
+    }
+    
     public static func popUpDialog(vc:UIViewController, on btn:UIButton, title:String, message:String) {
         let alert = UIAlertController(title: title, message: message, preferredStyle: UIAlertControllerStyle.alert)
         alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: nil))

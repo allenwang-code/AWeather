@@ -22,6 +22,8 @@ class MainViewModal: NSObject{
     let locationManager = CLLocationManager()
     var currentLocation = Constant.LONDON
     
+    var forecasts:[WeatherModel] = [WeatherModel]()
+    
     var country: String?
     var city: String?
     var weathers: [JSON] = [JSON]()
@@ -48,20 +50,23 @@ class MainViewModal: NSObject{
         let coordinate = currentLocation.coordinate
         let parameters: Parameters = ["lat": coordinate.latitude,
                                       "lon": coordinate.longitude,
+                                      "cnt": 10,
                                       "units": Constant.CELSIUS,
                                       "APPID": Constant.WEATHER_API_KEY]
         
 
         Alamofire.request(Constant.FORECAST_URL, parameters: parameters).responseJSON { response in
-            //print("Request: \(String(describing: response.request))")   // original url request
-            //print("Response: \(String(describing: response.response))") // http url response
-            //print("Result: \(response.result)")                         // response serialization result
+            // print("Request: \(String(describing: response.request))")   // original url request
+            // print("Response: \(String(describing: response.response))") // http url response
+            print("Result: \(response.result)")                         // response serialization result
             
             if let jsonString = response.result.value {
-                //print("JSON: \(jsonString)") // serialized json response
                 let json = JSON(jsonString: jsonString)
+                print("JSON: \(jsonString)") // serialized json response
+                
                 self.country = json["city"]["country"].string ?? "—"
                 self.city = json["city"]["name"].string ?? "—"
+                self.parseObject(from: json)
                 self.weathers = json["list"].array!
                 //let max = weathers?[0]["temp"]["max"].stringValue
                 //let min = weathers?[0]["temp"]["min"].stringValue
@@ -89,6 +94,28 @@ class MainViewModal: NSObject{
         }
     }
     
+    private func parseObject(from json: JSON) {
+        
+        guard let list = json["list"].array else { return }
+        for item in list {
+            let icon = item["weather"][0]["icon"].stringValue
+            let outline = item["weather"][0]["main"].stringValue
+            let maxString = item["temp"]["max"].stringValue
+            let minString = item["temp"]["min"].stringValue
+            let time = item["dt"].doubleValue
+            
+            let w = WeatherModel()
+            w.outline = outline
+            w.icon = icon
+            w.maxDegrees = maxString
+            w.minDegrees = minString
+            w.time = time
+            
+            forecasts.append(w)
+        }
+        
+    }
+    
   }
 
 extension MainViewModal: CLLocationManagerDelegate {
@@ -98,7 +125,7 @@ extension MainViewModal: CLLocationManagerDelegate {
         let lat = location.coordinate.latitude
         let long = location.coordinate.longitude
         print("locations = \(lat) \(long)")
-        currentLocation =  CLLocation(latitude: lat, longitude: long)
+        currentLocation = CLLocation(latitude: lat, longitude: long)
         locationManager.stopUpdatingLocation()
         
 //        let geo = CLGeocoder()
