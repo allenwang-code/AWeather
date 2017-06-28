@@ -13,7 +13,8 @@ import SwiftyJSON
 import AVFoundation
 
 protocol MainViewModalProtocol {
-    func getDataFinished()
+    func getDailyDataFinished()
+    func getHourlyDataFinished()
 }
 
 
@@ -65,9 +66,9 @@ class MainViewModal: NSObject{
                 
                 self.country = json["city"]["country"].string ?? "—"
                 self.city = json["city"]["name"].string ?? "—"
-                self.parse(from: json, to: &self.forecasts)
+                self.parseDailyData(from: json, to: &self.forecasts)
         
-                self.handler.getDataFinished()
+                self.handler.getDailyDataFinished()
             } else {
                 print("Error")
             }
@@ -79,15 +80,14 @@ class MainViewModal: NSObject{
                       "units": Constant.CELSIUS,
                       "APPID": Constant.WEATHER_API_KEY]
         Alamofire.request(Constant.CURRENT_WEATHER_URL, parameters: parameters).responseJSON { response in
-             print("Request: \(String(describing: response.request))")   // original url request
-            // print("Response: \(String(describing: response.response))") // http url response
-            // print("Result: \(response.result)")                         // response serialization result
             
             if let jsonString = response.result.value {
                 let json = JSON(jsonString: jsonString)
                 print("JSON: \(jsonString)")
-                self.parse(from: json, to: &self.curWeather)
-                self.handler.getDataFinished()
+                self.country = json["city"]["country"].string ?? "—"
+                self.city = json["city"]["name"].string ?? "—"
+                self.parseHourlyData(from: json, to: &self.curWeather)
+                self.handler.getHourlyDataFinished()
             } else {
                 print("Error")
             }
@@ -98,18 +98,13 @@ class MainViewModal: NSObject{
     func prepareAudioSession() {
         do {
             try AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategoryAmbient, with: .mixWithOthers)
-        } catch {
-            print(error)
-        }
-        
-        do {
             try AVAudioSession.sharedInstance().setActive(true)
         } catch {
             print(error)
         }
     }
     
-    private func parse(from json: JSON, to array: inout [WeatherModel]) {
+    private func parseDailyData(from json: JSON, to array: inout [WeatherModel]) {
         array.removeAll()
         
         guard let list = json["list"].array else { return }
@@ -122,6 +117,30 @@ class MainViewModal: NSObject{
             let max = Int(Float(maxString) ?? 0)
             let min = Int(Float(minString) ?? 0)
 
+            let w = WeatherModel()
+            w.outline = outline
+            w.icon = icon
+            w.maxDegrees = String(max)
+            w.minDegrees = String(min)
+            w.time = time
+            
+            array.append(w)
+        }
+    }
+    
+    private func parseHourlyData(from json: JSON, to array: inout [WeatherModel]) {
+        array.removeAll()
+        
+        guard let list = json["list"].array else { return }
+        for item in list {
+            let time = item["dt"].doubleValue
+            let icon = item["weather"][0]["icon"].stringValue
+            let outline = item["weather"][0]["main"].stringValue
+            let maxString = item["main"]["temp_max"].stringValue
+            let minString = item["main"]["temp_min"].stringValue
+            let max = Int(Float(maxString) ?? 0)
+            let min = Int(Float(minString) ?? 0)
+            
             let w = WeatherModel()
             w.outline = outline
             w.icon = icon

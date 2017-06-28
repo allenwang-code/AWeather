@@ -31,11 +31,7 @@ class MainViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        if !Util.isInternetAvailable() {
-            let t = NSLocalizedString("Error", comment: "")
-            let m = NSLocalizedString("Please check your internet status and reopen the app", comment: "")
-            Util.popUpDialog(vc: self, on: centralBtn, title: t, message: m)
-        }
+        checkInternet()
         
         viewModel = MainViewModal(handler: self)
         
@@ -70,12 +66,22 @@ class MainViewController: UIViewController {
     }
     
     func shareToNetwork(from btn: UIButton) {
+        HUD.flash(.progress, delay: 1)
+        
         if let image = Util.getScreenShot() {
             Util.shareToSocailMedia(from: self, on: btn, with: image)
         } else {
             let title = NSLocalizedString("Oops", comment: "")
             let msg = NSLocalizedString("Unable to share now, please retry later", comment: "")
             Util.popUpDialog(vc: self, on: btn, title: title, message: msg)
+        }
+    }
+    
+    private func checkInternet() {
+        if !Util.isInternetAvailable() {
+            let t = NSLocalizedString("Error", comment: "")
+            let m = NSLocalizedString("Please check your internet status and reopen the app", comment: "")
+            Util.popUpDialog(vc: self, on: centralBtn, title: t, message: m)
         }
     }
     
@@ -129,42 +135,6 @@ class MainViewController: UIViewController {
     }
 }
 
-
-//extension MainViewController: UICollectionViewDataSource, UICollectionViewDelegate {
-//    func collectionView(_ collectionView: UICollectionView,
-//                        numberOfItemsInSection section: Int) -> Int {
-//        return viewModel.forecasts.count
-//    }
-//    
-//    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-//        tappedCell(at: indexPath)
-//    }
-//    
-//    func collectionView(_ collectionView: UICollectionView,
-//                        cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-//            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "mainCell", for: indexPath) as! MainCollectionViewCell
-//
-//            let w = viewModel.forecasts[indexPath.item]
-//            let url = URL(string: Constant.WEATHER_IMAGE_URL + w.icon + ".png")
-//            
-//            cell.ivWeather.kf.setImage(with: url)
-//            cell.lbDegrees.text = "\(w.minDegrees) ~\(w.maxDegrees)°C"
-//            cell.lbDate.text = Util.tranfer(w.time!)
-//            return cell
-//    }
-//    
-//    private func tappedCell(at indexPath: IndexPath) {
-//        let w = viewModel.forecasts[indexPath.item]
-//        let date = Util.tranfer(w.time!)
-//        let utterrance = AVSpeechUtterance(string: "\(date) in \(viewModel.city!) is forecasted" +
-//            "to be \(w.minDegrees) degrees to \(w.minDegrees) degrees and \(w.outline)")
-//        utterrance.voice = AVSpeechSynthesisVoice(language: "en-GB")
-//        
-//        let synth = AVSpeechSynthesizer()
-//        synth.speak(utterrance)
-//    }
-//}
-
 extension MainViewController : GMSPlacePickerViewControllerDelegate {
     func placePicker(_ viewController: GMSPlacePickerViewController, didPick place: GMSPlace) {
         let c = place.coordinate
@@ -186,7 +156,7 @@ extension MainViewController : GMSPlacePickerViewControllerDelegate {
 }
 
 extension MainViewController: MainViewModalProtocol{
-    func getDataFinished() {
+    func getDailyDataFinished() {
         HUD.flash(.progress, delay: 0.5)
 
         let todayWeather = viewModel.forecasts[0]
@@ -198,8 +168,15 @@ extension MainViewController: MainViewModalProtocol{
         ivWeather.kf.setImage(with: url)
         
         dailyDelegate?.weathers = viewModel.forecasts
-        hourlyDelegate?.weathers = viewModel.curWeather
+        dailyDelegate?.city = viewModel.city!
+        dailyDelegate?.isDaily = true
         dailyCollectionView.reloadData()
+    }
+    
+    func getHourlyDataFinished() {
+        hourlyDelegate?.weathers = viewModel.curWeather
+        hourlyDelegate?.city = viewModel.city!
+        hourlyDelegate?.isDaily = false
         hourlyCollectionView.reloadData()
     }
 }

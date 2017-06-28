@@ -38,9 +38,18 @@
                         <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                     </collectionViewFlowLayout>
                 </collectionView>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9P9-QZ-w8O">
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" hasAttributedTitle="YES" translatesAutoresizingMaskIntoConstraints="NO" id="9P9-QZ-w8O">
                     <rect key="frame" x="269" y="205.5" width="100" height="20"/>
-                    <state key="normal" title="Daily/Hourly"/>
+                    <state key="normal">
+                        <attributedString key="attributedTitle">
+                            <fragment content="Daily/Hourly">
+                                <attributes>
+                                    <color key="NSColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                                    <font key="NSFont" metaFont="system" size="16"/>
+                                </attributes>
+                            </fragment>
+                        </attributedString>
+                    </state>
                 </button>
                 <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="KLv-vF-051">
                     <rect key="frame" x="179.5" y="326" width="15" height="15"/>

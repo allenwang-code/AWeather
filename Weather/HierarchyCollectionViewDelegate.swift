@@ -12,6 +12,7 @@ import AVFoundation
 
 class HierarchyCollectionViewDelegate: NSObject, UICollectionViewDataSource, UICollectionViewDelegate {
     
+    var isDaily = true
     var weathers = [WeatherModel]()
     var city = ""
     
@@ -33,7 +34,7 @@ class HierarchyCollectionViewDelegate: NSObject, UICollectionViewDataSource, UIC
         
         cell.ivWeather.kf.setImage(with: url)
         cell.lbDegrees.text = "\(w.minDegrees) ~\(w.maxDegrees)°C"
-        cell.lbDate.text = Util.tranfer(w.time!)
+        cell.lbDate.text = isDaily ? Util.tranfer(w.time!) : Util.tranfer(w.time!, to: "H:mm")
         return cell
     }
     
