@@ -24,11 +24,14 @@ class Constant {
     public static let CURRENT_WEATHER_URL = "http://api.openweathermap.org/data/\(VERSION)/forecast"
     public static let WEATHER_IMAGE_URL = "https://openweathermap.org/img/w/"
     public static let CELSIUS = "metric"
-    private static let VERSION = "2.5"
     
     // get these from plist when app start
     public static var WEATHER_API_KEY = ""
     public static var MAP_API_KEY = ""
+    
+    public static var USER_CREATION = "userCreation"
+    private static let VERSION = "2.5"
+
    }
 
 

@@ -33,17 +33,33 @@ class MainViewModel: NSObject{
     
     init(handler: MainViewModelProtocol) {
         self.handler = handler
+        super.init()
+        NotificationCenter.default.addObserver(self,
+                    selector: #selector(MainViewModel.calledFromHisotry(_:)),
+                    name: Notification.Name("pressedHistory"), object: nil)
+    }
+    
+    deinit {
+        NotificationCenter.default.removeObserver(
+            self, name: Notification.Name("pressedHistory"), object: nil)
     }
     
     func askGPS() {
         locationManager.requestAlwaysAuthorization()
-        // For use in foreground
         locationManager.requestWhenInUseAuthorization()
         if CLLocationManager.locationServicesEnabled() {
             locationManager.delegate = self
             locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
             locationManager.startUpdatingLocation()
         }
+    }
+    
+    func calledFromHisotry(_ notification: NSNotification) {
+        if let coordinate = notification.userInfo?["coordinate"]  {
+            let c = coordinate as? CLLocationCoordinate2D
+            self.currentLocation = CLLocation(latitude: c!.latitude, longitude: c!.longitude)
+        }
+        getWeatherData()
     }
     
     func getWeatherData() {
@@ -53,21 +69,15 @@ class MainViewModel: NSObject{
                                       "cnt": 10,
                                       "units": Constant.CELSIUS,
                                       "APPID": Constant.WEATHER_API_KEY]
-        
-
         Alamofire.request(Constant.FORECAST_URL, parameters: parameters).responseJSON { response in
-            // print("Request: \(String(describing: response.request))")   // original url request
-            // print("Response: \(String(describing: response.response))") // http url response
-            // print("Result: \(response.result)")                         // response serialization result
-            
-            if let jsonString = response.result.value {
+                if let jsonString = response.result.value {
                 let json = JSON(jsonString: jsonString)
-                 print("JSON: \(jsonString)")
                 
                 self.country = json["city"]["country"].string ?? "—"
                 self.city = json["city"]["name"].string ?? "—"
                 self.parseDailyData(from: json, to: &self.forecasts)
-        
+                    
+                self.storeUserAction()
                 self.handler.getDailyDataFinished()
             } else {
                 print("Error")
@@ -83,7 +93,6 @@ class MainViewModel: NSObject{
             
             if let jsonString = response.result.value {
                 let json = JSON(jsonString: jsonString)
-                print("JSON: \(jsonString)")
                 self.country = json["city"]["country"].string ?? "—"
                 self.city = json["city"]["name"].string ?? "—"
                 self.parseHourlyData(from: json, to: &self.curWeather)
@@ -102,6 +111,26 @@ class MainViewModel: NSObject{
         } catch {
             print(error)
         }
+    }
+    
+    private func storeUserAction(){
+        let ud = UserDefaults.standard
+
+        let decoded  = ud.object(forKey: Constant.USER_CREATION) as? Data
+        var encodedData: Data!
+        if decoded != nil {
+            var locations = NSKeyedUnarchiver.unarchiveObject(with: decoded!) as! [LocationModel]
+            for location in locations {
+                if location.city == self.city { return }
+                locations.append(LocationModel(city: self.city!,coordinate: self.currentLocation.coordinate))
+            }
+            encodedData = NSKeyedArchiver.archivedData(withRootObject: locations)
+        } else {
+            let ls = [LocationModel(city: self.city!, coordinate: self.currentLocation.coordinate)]
+            encodedData = NSKeyedArchiver.archivedData(withRootObject: ls)
+        }
+        ud.set(encodedData, forKey: Constant.USER_CREATION)
+        ud.synchronize()
     }
     
     private func parseDailyData(from json: JSON, to array: inout [WeatherModel]) {
@@ -163,21 +192,6 @@ extension MainViewModel: CLLocationManagerDelegate {
         currentLocation = CLLocation(latitude: lat, longitude: long)
         locationManager.stopUpdatingLocation()
         
-//        let geo = CLGeocoder()
-//        geo.reverseGeocodeLocation(currentLocation, completionHandler: {
-//            (placemarks, error)-> Void in
-//            if (error != nil) { return }
-//            guard let placemarks = placemarks else { return }
-//            if placemarks.count == 0 { return }
-//            let placemark = placemarks[0]
-//            print(placemark.country!)
-//            print(placemark.administrativeArea!)
-//            print(placemark.subAdministrativeArea!)
-//            
-//            if let city = placemark.addressDictionary?["City"] {
-//                print(city)
-//            }
-//        })
         getWeatherData()
     }
  

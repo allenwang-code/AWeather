@@ -138,8 +138,8 @@ class MainViewController: UIViewController {
 extension MainViewController : GMSPlacePickerViewControllerDelegate {
     func placePicker(_ viewController: GMSPlacePickerViewController, didPick place: GMSPlace) {
         let c = place.coordinate
-        print(c)
-        viewModel.currentLocation = CLLocation(latitude: c.latitude, longitude: c.longitude)
+        let l = CLLocation(latitude: c.latitude, longitude: c.longitude)
+        viewModel.currentLocation = l
         viewModel.getWeatherData()
         
         viewController.dismiss(animated: true, completion: nil)

@@ -9,6 +9,7 @@
 import Foundation
 import UIKit
 import SystemConfiguration
+import CoreLocation
 
 class Util {
     
