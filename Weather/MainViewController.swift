@@ -114,7 +114,7 @@ extension MainViewController: UICollectionViewDataSource,
     UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView,
                         numberOfItemsInSection section: Int) -> Int {
-        return viewModel.weathers.count
+        return viewModel.forecasts.count
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
@@ -127,38 +127,20 @@ extension MainViewController: UICollectionViewDataSource,
             
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "mainCell", for: indexPath) as! MainCollectionViewCell
 
-            let w = viewModel.weathers[indexPath.item]
-            let icon = w["weather"][0]["icon"].stringValue
-            let maxString = w["temp"]["max"].stringValue
-            let minString = w["temp"]["min"].stringValue
-            let max = Int(Float(maxString)!)
-            let min = Int(Float(minString)!)
-            let url = URL(string: Constant.WEATHER_IMAGE_URL + icon + ".png")
-            cell.ivWeather.kf.setImage(with: url)
-            cell.lbDegrees.text = "\(String(describing: min)) ~\(String(describing: max))°C"
+            let w = viewModel.forecasts[indexPath.item]
+            let url = URL(string: Constant.WEATHER_IMAGE_URL + w.icon + ".png")
             
-            let date = NSDate(timeIntervalSince1970: w["dt"].doubleValue)
-            let dayTimePeriodFormatter = DateFormatter()
-            dayTimePeriodFormatter.dateFormat = "MMM dd"
-            let dateString = dayTimePeriodFormatter.string(from: date as Date)
-            cell.lbDate.text = dateString
+            cell.ivWeather.kf.setImage(with: url)
+            cell.lbDegrees.text = "\(w.minDegrees) ~\(w.maxDegrees)°C"
+            cell.lbDate.text = Util.tranfer(w.time!)
             return cell
     }
     
     private func tappedCell(at indexPath: IndexPath) {
-        let w = viewModel.weathers[indexPath.item]
-        let icon = w["weather"][0]["icon"].stringValue
-        let maxString = w["temp"]["max"].stringValue
-        let minString = w["temp"]["min"].stringValue
-        let date = NSDate(timeIntervalSince1970: w["dt"].doubleValue)
-        let dayTimePeriodFormatter = DateFormatter()
-        dayTimePeriodFormatter.dateFormat = "MMM dd"
-        let dateString = dayTimePeriodFormatter.string(from: date as Date)
-
-        let outline = w["weather"][0]["main"].stringValue
-        
-        let utterrance = AVSpeechUtterance(string: "\(dateString) in \(viewModel.city!) is forecasted" +
-            "to be \(minString) degrees to \(maxString) degrees and \(outline)")
+        let w = viewModel.forecasts[indexPath.item]
+        let date = Util.tranfer(w.time!)
+        let utterrance = AVSpeechUtterance(string: "\(date) in \(viewModel.city!) is forecasted" +
+            "to be \(w.minDegrees) degrees to \(w.minDegrees) degrees and \(w.outline)")
         utterrance.voice = AVSpeechSynthesisVoice(language: "en-GB")
         
         let synth = AVSpeechSynthesizer()
@@ -191,32 +173,16 @@ extension MainViewController : GMSPlacePickerViewControllerDelegate {
 
 extension MainViewController: MainViewModalProtocol{
     func getDataFinished() {
-   
-        HUD.flash(.progress, delay: 1.0)
+        HUD.flash(.progress, delay: 0.5)
 
-        let todayWeather = viewModel.weathers[0]
-        
-        
-        let date = NSDate(timeIntervalSince1970: todayWeather["dt"].doubleValue)
-        let dayTimePeriodFormatter = DateFormatter()
-        dayTimePeriodFormatter.dateFormat = "MMM dd YYYY"
-        let dateString = dayTimePeriodFormatter.string(from: date as Date)
-        lbDate.text = dateString
+        let todayWeather = viewModel.forecasts[0]
+        let url = URL(string: Constant.WEATHER_IMAGE_URL + todayWeather.icon + ".png")
+
+        lbDate.text = Util.tranfer(todayWeather.time!, to: "MMM dd YYYY")
         lbCity.text = viewModel.country! + ", " + viewModel.city!
-    
-        let maxString = todayWeather["temp"]["max"].stringValue
-        let minString = todayWeather["temp"]["min"].stringValue
-        let max = Int(Float(maxString)!)
-        let min = Int(Float(minString)!)
-        lbDegree.text = "\(String(describing: min)) ~\(String(describing: max))°C"
-        
-        let icon = todayWeather["weather"][0]["icon"].stringValue
-        let url = URL(string: Constant.WEATHER_IMAGE_URL + icon + ".png")
+        lbDegree.text = "\(todayWeather.minDegrees) ~\(todayWeather.maxDegrees)°C"
         ivWeather.kf.setImage(with: url)
 
         collectionView.reloadData()
-
     }
-    
-    
 }

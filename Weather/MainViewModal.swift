@@ -103,12 +103,14 @@ class MainViewModal: NSObject{
             let maxString = item["temp"]["max"].stringValue
             let minString = item["temp"]["min"].stringValue
             let time = item["dt"].doubleValue
-            
+            let max = Int(Float(maxString) ?? 0)
+            let min = Int(Float(minString) ?? 0)
+
             let w = WeatherModel()
             w.outline = outline
             w.icon = icon
-            w.maxDegrees = maxString
-            w.minDegrees = minString
+            w.maxDegrees = String(max)
+            w.minDegrees = String(min)
             w.time = time
             
             forecasts.append(w)

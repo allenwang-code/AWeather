@@ -10,9 +10,10 @@ import Foundation
 import UIKit
 class Util {
     
-    public static func tranfer(time: Double, to format: String = "MMM dd") -> String {
+    public static func tranfer(_ time: Double, to format: String = "MMM dd") -> String {
         let date = NSDate(timeIntervalSince1970: time)
         let dayTimePeriodFormatter = DateFormatter()
+        dayTimePeriodFormatter.dateFormat = format
         let dateString = dayTimePeriodFormatter.string(from: date as Date)
         return dateString
     }

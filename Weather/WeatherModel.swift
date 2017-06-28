@@ -8,9 +8,9 @@
 
 class WeatherModel {
     var time: Double?
-    var outline : String?
-    var minDegrees: String?
-    var maxDegrees: String?
-    var icon: String?
+    var outline : String  = "-"
+    var minDegrees: String = "-"
+    var maxDegrees: String = "-"
+    var icon: String = "02d"
 
 }
