@@ -41,7 +41,14 @@ class MainViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
-    func goto(from btn: UIButton) {
+    func userHistory(from btn: UIButton) {
+        let history = HistoryViewController()
+        history.popoverPresentationController?.sourceView = btn
+        history.popoverPresentationController?.sourceRect = btn.bounds
+        self.present(history, animated: true, completion: nil)
+    }
+
+    func pickPlaceFromMap(from btn: UIButton) {
         let config = GMSPlacePickerConfig(viewport: nil)
         let placePicker = GMSPlacePickerViewController(config: config)
         placePicker.delegate = self
@@ -55,12 +62,9 @@ class MainViewController: UIViewController {
         if let image = Util.getScreenShot() {
             Util.shareToSocailMedia(from: self, on: btn, with: image)
         } else {
-            let alert = UIAlertController(title: "", message: "Message", preferredStyle: UIAlertControllerStyle.alert)
-            alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: nil))
-            alert.popoverPresentationController?.sourceView = btn
-            alert.popoverPresentationController?.sourceRect = btn.bounds
-
-            self.present(alert, animated: true, completion: nil)
+            let title = NSLocalizedString("Oops", comment: "")
+            let msg = NSLocalizedString("Unable to share now, please retry later", comment: "")
+            Util.popUpDialog(vc: self, on: btn, title: title, message: msg)
         }
     }
     
@@ -81,7 +85,7 @@ class MainViewController: UIViewController {
         
         let map = UIButton()
         map.setImage(#imageLiteral(resourceName: "map-1"), for: UIControlState.normal)
-        map.addTarget(self, action:#selector(goto(from:)), for: .touchUpInside)
+        map.addTarget(self, action:#selector(pickPlaceFromMap(from:)), for: .touchUpInside)
         map.frame = CGRect.init(x: 0, y: 0, width: 30, height: 30)
         let mapItem = UIBarButtonItem.init(customView: map)
         
@@ -91,10 +95,17 @@ class MainViewController: UIViewController {
         share.frame = CGRect.init(x: 0, y: 0, width: 30, height: 30)
         let shareItem = UIBarButtonItem.init(customView: share)
 
+        let rightButtons = [shareItem, mapItem, locationItem]
+        self.navigationItem.setRightBarButtonItems(rightButtons, animated: true)
         
+        let history = UIButton()
+        history.setImage(#imageLiteral(resourceName: "history"), for: UIControlState.normal)
+        history.addTarget(self, action:#selector(userHistory(from:)), for: .touchUpInside)
+        history.frame = CGRect.init(x: 0, y: 0, width: 30, height: 30)
+        let historyItem = UIBarButtonItem.init(customView: history)
 
-        let buttonArray = [shareItem, mapItem, locationItem]
-        self.navigationItem.setRightBarButtonItems(buttonArray, animated: true)
+        // self.navigationItem.leftBarButtonItem = historyItem
+        self.navigationItem.setLeftBarButton(historyItem, animated: true)
     }
 }
 

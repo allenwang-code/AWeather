@@ -9,9 +9,11 @@
 import Foundation
 import UIKit
 class Util {
-    public static func popUpDialog(vc:UIViewController, title:String, message:String) {
+    public static func popUpDialog(vc:UIViewController, on btn:UIButton, title:String, message:String) {
         let alert = UIAlertController(title: title, message: message, preferredStyle: UIAlertControllerStyle.alert)
         alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: nil))
+        alert.popoverPresentationController?.sourceView = btn
+        alert.popoverPresentationController?.sourceRect = btn.bounds
         vc.present(alert, animated: true, completion: nil)
     }
     

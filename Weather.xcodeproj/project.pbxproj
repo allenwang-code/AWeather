@@ -278,7 +278,7 @@
 				TargetAttributes = {
 					DD64B4931EFE300C00436CA5 = {
 						CreatedOnToolsVersion = 8.3.3;
-						DevelopmentTeam = CZY694H42E;
+						DevelopmentTeam = X398R58965;
 						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
 							com.apple.Siri = {
@@ -633,7 +633,7 @@
 			baseConfigurationReference = 527DCFD88A602315EAFB59AC /* Pods-Weather.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = CZY694H42E;
+				DEVELOPMENT_TEAM = X398R58965;
 				INFOPLIST_FILE = Weather/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -648,7 +648,7 @@
 			baseConfigurationReference = 51A719D83F09254D4003340F /* Pods-Weather.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = CZY694H42E;
+				DEVELOPMENT_TEAM = X398R58965;
 				INFOPLIST_FILE = Weather/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";

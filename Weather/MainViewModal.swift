@@ -58,7 +58,7 @@ class MainViewModal: NSObject{
             //print("Result: \(response.result)")                         // response serialization result
             
             if let jsonString = response.result.value {
-                print("JSON: \(jsonString)") // serialized json response
+                //print("JSON: \(jsonString)") // serialized json response
                 let json = JSON(jsonString: jsonString)
                 self.country = json["city"]["country"].string ?? "—"
                 self.city = json["city"]["name"].string ?? "—"

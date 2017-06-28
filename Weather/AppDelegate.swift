@@ -20,11 +20,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         // init Navigation Controller
         self.window = UIWindow(frame: UIScreen.main.bounds)
-        let viewController = UINavigationController()
-        self.window!.rootViewController = viewController
+        let nc = UINavigationController()
+        self.window!.rootViewController = nc
         self.window!.makeKeyAndVisible()
-        viewController.pushViewController(MainViewController(), animated: true)
-        
+        nc.pushViewController(MainViewController(), animated: true)
+                
         getAPIKeyFromPlist()
         
         return true
