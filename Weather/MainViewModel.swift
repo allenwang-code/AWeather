@@ -57,6 +57,7 @@ class MainViewModel: NSObject{
     func calledFromHisotry(_ notification: NSNotification) {
         if let coordinate = notification.userInfo?["coordinate"]  {
             let c = coordinate as? CLLocationCoordinate2D
+            
             self.currentLocation = CLLocation(latitude: c!.latitude, longitude: c!.longitude)
         }
         getWeatherData()
@@ -119,14 +120,30 @@ class MainViewModel: NSObject{
         let decoded  = ud.object(forKey: Constant.USER_CREATION) as? Data
         var encodedData: Data!
         if decoded != nil {
-            var locations = NSKeyedUnarchiver.unarchiveObject(with: decoded!) as! [LocationModel]
-            for location in locations {
-                if location.city == self.city { return }
-                locations.append(LocationModel(city: self.city!,coordinate: self.currentLocation.coordinate))
+            var locations = NSKeyedUnarchiver.unarchiveObject(with: decoded!) as! Set<LocationModel>
+            let fl = locations.filter({ locationModel -> Bool in
+                   return locationModel.city == self.city
+            })
+            
+            if fl.isEmpty {
+                let l = LocationModel(city: self.city!,coordinate: self.currentLocation.coordinate)
+                locations.insert(l)
+                encodedData = NSKeyedArchiver.archivedData(withRootObject: locations)
+            } else {
+                encodedData = NSKeyedArchiver.archivedData(withRootObject: locations)
             }
-            encodedData = NSKeyedArchiver.archivedData(withRootObject: locations)
+//            for location in locations {
+//                histories.filter { (<#LocationModel#> -> Bool in
+//                    <#code#>
+//                }
+//                
+//                if location.city == self.city { return }
+//                let l = LocationModel(city: self.city!,coordinate: self.currentLocation.coordinate)
+//                locations.insert(l)
+//            }
+//            encodedData = NSKeyedArchiver.archivedData(withRootObject: fl)
         } else {
-            let ls = [LocationModel(city: self.city!, coordinate: self.currentLocation.coordinate)]
+            let ls: Set = [LocationModel(city: self.city!, coordinate: self.currentLocation.coordinate)]
             encodedData = NSKeyedArchiver.archivedData(withRootObject: ls)
         }
         ud.set(encodedData, forKey: Constant.USER_CREATION)

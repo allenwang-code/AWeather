@@ -13,7 +13,7 @@ class HistoryViewController: UIViewController {
 
     @IBOutlet weak var tableView: UITableView!
 
-    var histories: [LocationModel] = []
+    var histories: Set<LocationModel> = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -22,8 +22,9 @@ class HistoryViewController: UIViewController {
         
         let ud = UserDefaults.standard
         let decoded  = ud.object(forKey: Constant.USER_CREATION) as! Data
-        let decodedModel = NSKeyedUnarchiver.unarchiveObject(with: decoded) as! [LocationModel]
+        let decodedModel = NSKeyedUnarchiver.unarchiveObject(with: decoded) as! Set<LocationModel>
         histories = decodedModel
+        
     }
     
 }
@@ -41,13 +42,15 @@ extension HistoryViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath)
             as UITableViewCell
-        cell.textLabel?.text = histories[indexPath.section].city
+        let index = histories.index(histories.startIndex, offsetBy: indexPath.section)
+        cell.textLabel?.text = histories[index].city
         return cell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let l = histories[indexPath.section].coordinate
-        let d: [String: CLLocationCoordinate2D] = ["coordinate": l]
+        let index = histories.index(histories.startIndex, offsetBy: indexPath.section)
+        let c =  histories[index].coordinate
+        let d: [String: CLLocationCoordinate2D] = ["coordinate": c]
         NotificationCenter.default.post(name: Notification.Name("pressedHistory"), object: nil,  userInfo: d)
         self.dismiss(animated: true, completion: nil)
     }
