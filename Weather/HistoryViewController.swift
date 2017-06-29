@@ -48,7 +48,7 @@ extension HistoryViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let l = histories[indexPath.section].coordinate
         let d: [String: CLLocationCoordinate2D] = ["coordinate": l]
-        NotificationCenter.default.post(name: Notification.Name("pressedHistory"), object: d)
+        NotificationCenter.default.post(name: Notification.Name("pressedHistory"), object: nil,  userInfo: d)
         self.dismiss(animated: true, completion: nil)
     }
 
