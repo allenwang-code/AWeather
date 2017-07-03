@@ -29,7 +29,7 @@ $ open "AWeather.xcworkspace"
 
 4) Sign up on [openweathermap.org/appid](http://openweathermap.org/appid) to get an appid
 
-5) Sign up on [GoogleMAPAPI/mapKey](https://developers.google.com/maps/documentation/ios-sdk/get-api-key) to get an appid
+5) Sign up on [GoogleMAPAPI/mapKey](https://developers.google.com/maps/documentation/ios-sdk/get-api-key) to get an api key
 
 6) create .plist file named Keys.plist like below in ../AWeather/Weather/
 ```
